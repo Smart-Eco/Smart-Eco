@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:smarteco2/Screens/route.dart';
+import 'package:smarteco2/Screens/login_Screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class splashScreen extends StatefulWidget {
@@ -15,13 +15,13 @@ class _splashScreenState extends State<splashScreen> {
   bool expand = false;
   @override
   void initState() {
-    Timer(Duration(seconds: 2), () {
+    Timer(Duration(seconds: 3), () {
       setState(() {
         expand = true;
       });
     });
 
-    Timer(Duration(seconds: 4), () {
+    Timer(Duration(seconds: 5), () {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => loginScreen()));
     });
@@ -40,7 +40,7 @@ class _splashScreenState extends State<splashScreen> {
           Stack(
             children: [
               AnimatedContainer(
-                duration: Duration(milliseconds: 600),
+                duration: Duration(milliseconds: 700),
                 height: expand ? splashHeight * 0.5 : 0,
                 decoration: BoxDecoration(
                     image: DecorationImage(
@@ -65,7 +65,7 @@ class _splashScreenState extends State<splashScreen> {
                   child: Text(
                     'SmartEco',
                     style: GoogleFonts.rubik(
-                      color: Color(0xFF0F0F0F),
+                      color: Color.fromARGB(255, 11, 10, 10),
                       fontSize: 48,
                       fontWeight: FontWeight.w500,
                       height: 0,
