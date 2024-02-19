@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:smarteco2/Screens/base_nav.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: HomeScreen(),
-  ));
+class HomeScreen extends StatefulWidget {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class HomeScreen extends StatelessWidget {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +39,6 @@ class HomeScreen extends StatelessWidget {
         },
         child: Icon(Icons.add),
       ),
-      bottomNavigationBar: basenav(), // Display the bottom navigation bar here
     );
   }
 }

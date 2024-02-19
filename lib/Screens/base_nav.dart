@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smarteco2/Screens/home_screen.dart';
+import 'package:smarteco2/Screens/notif_scrn.dart';
+import 'package:smarteco2/Screens/profile_scrn.dart';
 
 class basenav extends StatefulWidget {
   const basenav({Key? key}) : super(key: key);
@@ -10,10 +12,11 @@ class basenav extends StatefulWidget {
 
 class _BaseNavState extends State<basenav> {
   int _currentIndex = 0; // Add this line to track the current index
-
+  List screens = [HomeScreen(), NotifScrn(), ProfileScrn()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         backgroundColor: Color.fromARGB(255, 0, 0, 0),
@@ -37,29 +40,9 @@ class _BaseNavState extends State<basenav> {
           setState(() {
             _currentIndex = index;
             // Handle navigation item taps here
-            switch (index) {
-              case 0:
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                );
-                break;
-              case 1:
-                // Navigate to the profile page
-                break;
-              case 2:
-                // Navigate to the notifications page
-                break;
-            }
           });
         },
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: basenav(),
-  ));
 }
