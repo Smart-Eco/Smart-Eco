@@ -57,21 +57,24 @@ class _ProfileScrnState extends State<ProfileScrn> {
               SizedBox(height: 20),
               Text(
                 'Random Username', // Replace with the actual username
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
               ),
               SizedBox(height: 5),
               Text(
                 'random@example.com', // Replace with the actual email
-                style: TextStyle(fontSize: 16, color: Colors.grey),
+                style: TextStyle(fontSize: 16, color: Colors.black),
               ),
               SizedBox(height: 20),
-              buildIconButton(Icons.edit, 'Edit Profile'),
+              buildIconButton(Icons.edit, 'Edit Profile', Colors.black),
               SizedBox(height: 10),
-              buildIconButton(Icons.settings, 'Settings'),
+              buildIconButton(Icons.settings, 'Settings', Colors.black),
               SizedBox(height: 10),
-              buildIconButton(Icons.support, 'Support'),
+              buildIconButton(Icons.support, 'Support', Colors.black),
               SizedBox(height: 10),
-              buildIconButton(Icons.logout, 'Logout'),
+              buildIconButton(Icons.logout, 'Logout', Colors.black),
             ],
           ),
         ),
@@ -79,7 +82,7 @@ class _ProfileScrnState extends State<ProfileScrn> {
     );
   }
 
-  Widget buildIconButton(IconData icon, String label) {
+  Widget buildIconButton(IconData icon, String label, Color textColor) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.9,
       child: ElevatedButton(
@@ -91,16 +94,22 @@ class _ProfileScrnState extends State<ProfileScrn> {
           children: [
             Row(
               children: [
-                Icon(icon),
+                Icon(icon, color: Colors.black),
                 SizedBox(width: 10),
-                Text(label),
+                Text(
+                  label,
+                  style: TextStyle(color: textColor),
+                ),
               ],
             ),
-            Icon(Icons.arrow_forward),
+            Icon(Icons.arrow_forward, color: Colors.black),
           ],
         ),
         style: ElevatedButton.styleFrom(
           fixedSize: Size(200, 50), // Adjust width and height as needed
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10), // Adjust the border radius
+          ),
         ),
       ),
     );
