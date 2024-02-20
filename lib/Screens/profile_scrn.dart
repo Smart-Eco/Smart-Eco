@@ -68,13 +68,10 @@ class _ProfileScrnState extends State<ProfileScrn> {
                 style: TextStyle(fontSize: 16, color: Colors.black),
               ),
               SizedBox(height: 20),
-              buildIconButton(Icons.edit, 'Edit Profile', Colors.black),
-              SizedBox(height: 10),
-              buildIconButton(Icons.settings, 'Settings', Colors.black),
-              SizedBox(height: 10),
-              buildIconButton(Icons.support, 'Support', Colors.black),
-              SizedBox(height: 10),
-              buildIconButton(Icons.logout, 'Logout', Colors.black),
+              buildButton('Edit Profile', Icons.arrow_forward),
+              buildButton('Settings', Icons.arrow_forward),
+              buildButton('Support', Icons.arrow_forward),
+              buildButton('Logout', Icons.arrow_forward),
             ],
           ),
         ),
@@ -82,7 +79,7 @@ class _ProfileScrnState extends State<ProfileScrn> {
     );
   }
 
-  Widget buildIconButton(IconData icon, String label, Color textColor) {
+  Widget buildButton(String label, IconData icon) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.9,
       child: ElevatedButton(
@@ -92,17 +89,8 @@ class _ProfileScrnState extends State<ProfileScrn> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Icon(icon, color: Colors.black),
-                SizedBox(width: 10),
-                Text(
-                  label,
-                  style: TextStyle(color: textColor),
-                ),
-              ],
-            ),
-            Icon(Icons.arrow_forward, color: Colors.black),
+            Text(label),
+            Icon(icon),
           ],
         ),
         style: ElevatedButton.styleFrom(
