@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smarteco2/Screens/base_nav.dart';
+import 'package:smarteco2/Screens/home_screen.dart';
+import 'package:smarteco2/Screens/sign_up.dart';
+import 'sign_up.dart'; // Import the SignUpPage
 
 class loginScreen extends StatelessWidget {
   const loginScreen({Key? key}) : super(key: key);
@@ -78,7 +81,7 @@ class loginScreen extends StatelessWidget {
                     },
                     child: Text('Login'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.lightGreen,
+                      backgroundColor: Color.fromRGBO(52, 224, 161, 1),
                       padding: EdgeInsets.symmetric(horizontal: 50),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),
@@ -86,66 +89,37 @@ class loginScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
-                  TextButton(
-                    onPressed: () {
-                      // Implement forgot password logic here
-                    },
-                    child: Text(
-                      'Forgot Password?',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  // Horizontal line and "OR" text
+                  // "Sign Up" and "Forgot Password?" TextButtons
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
-                        child: Divider(
-                          color: Colors.grey,
-                          height: 1,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                      TextButton(
+                        onPressed: () {
+                          // Handle Sign Up navigation
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignUpPage()),
+                          );
+                        },
                         child: Text(
-                          'OR',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                          ),
+                          'Sign Up',
+                          style: TextStyle(color: Colors.grey),
                         ),
                       ),
-                      Expanded(
-                        child: Divider(
-                          color: Colors.grey,
-                          height: 1,
+                      SizedBox(width: 2),
+                      TextButton(
+                        onPressed: () {
+                          // Implement forgot password logic here
+                        },
+                        child: Text(
+                          'Forgot Password?',
+                          style: TextStyle(color: Colors.grey),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  // "Sign Up with Google" button
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => basenav()));
-                    },
-                    icon: Image.asset(
-                      'assets/google.jpg',
-                      width: 24,
-                      height: 24,
-                    ),
-                    label: Text('Sign Up with Google'),
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.grey,
-                      backgroundColor: Colors.black,
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                    ),
-                  ),
+                  // ... (unchanged code)
                 ],
               ),
             ),

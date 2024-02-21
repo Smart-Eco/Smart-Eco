@@ -4,7 +4,7 @@ import 'package:smarteco2/Screens/notif_scrn.dart';
 import 'package:smarteco2/Screens/profile_scrn.dart';
 
 class basenav extends StatefulWidget {
-  const basenav({Key? key}) : super(key: key);
+  const basenav(HomeScreen homeScreen, {Key? key}) : super(key: key);
 
   @override
   _BaseNavState createState() => _BaseNavState();
