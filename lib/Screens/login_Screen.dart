@@ -34,8 +34,11 @@ class loginScreen extends StatelessWidget {
                       decoration: InputDecoration(
                         labelText: 'Email id',
                         hintText: 'abc@gmail.com',
+                        filled: true,
+                        fillColor: Colors.grey[200],
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
+                          borderSide: BorderSide(color: Colors.transparent),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
@@ -53,8 +56,11 @@ class loginScreen extends StatelessWidget {
                       decoration: InputDecoration(
                         labelText: 'Password',
                         hintText: '••••••••',
+                        filled: true,
+                        fillColor: Colors.grey[200],
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
+                          borderSide: BorderSide(color: Colors.transparent),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
@@ -65,15 +71,23 @@ class loginScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
-                  ElevatedButton(
+                  ElevatedButton.icon(
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => basenav()));
                     },
-                    child: Text('Login'),
+                    icon: Image.asset(
+                      'assets/google.jpg', // Replace with the actual path to your Google logo asset
+                      width: 24, // Adjust width as needed
+                      height: 24, // Adjust height as needed
+                    ),
+                    label: Text('Sign Up with Google'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.lightGreen,
-                      padding: EdgeInsets.symmetric(horizontal: 50),
+                      foregroundColor:
+                          Colors.grey, // Adjust the color as needed
+                      backgroundColor:
+                          Colors.black, // Adjust the label color as needed
+                      padding: EdgeInsets.symmetric(horizontal: 20),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),
                       ),
@@ -90,6 +104,34 @@ class loginScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
+                  // Horizontal line and "OR" text
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          color: Colors.grey,
+                          height: 1,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Text(
+                          'OR',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Colors.grey,
+                          height: 1,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
