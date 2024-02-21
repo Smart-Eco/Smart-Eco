@@ -21,11 +21,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 0, 0, 0),
-        automaticallyImplyLeading:
-            false, // Set this property to false to remove back button
+      backgroundColor: const Color.fromARGB(
+          255, 255, 255, 255), // Set background color to white
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(1.0), // Set height to 1cm
+        child: AppBar(
+          flexibleSpace: FlexibleSpaceBar(),
+          automaticallyImplyLeading:
+              false, // Set this property to false to remove back button
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -37,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Hello',
                 style: TextStyle(
                   fontSize: 24,
-                  color: Colors.white,
+                  color: Colors.black, // Change text color to black
                 ),
               ),
               SizedBox(height: 8),
@@ -47,14 +51,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontFamily: 'Helvetica',
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Colors.black, // Change text color to black
                 ),
               ),
               SizedBox(height: 25),
               Container(
                 width: double.infinity,
                 child: Card(
-                  color: Color.fromARGB(70, 66, 66, 66),
+                  color: Color.fromARGB(151, 13, 202, 47),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -70,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Water Status",
+                                  "Energy Usage",
                                   style: TextStyle(
                                     fontSize: 28,
                                     fontWeight: FontWeight.bold,
@@ -105,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Colors.black, // Change text color to black
                 ),
               ),
               SizedBox(height: 20),
