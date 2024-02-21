@@ -71,23 +71,15 @@ class loginScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
-                  ElevatedButton.icon(
+                  // Login Button
+                  ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => basenav()));
+                      // Handle Login logic
                     },
-                    icon: Image.asset(
-                      'assets/google.jpg', // Replace with the actual path to your Google logo asset
-                      width: 24, // Adjust width as needed
-                      height: 24, // Adjust height as needed
-                    ),
-                    label: Text('Sign Up with Google'),
+                    child: Text('Login'),
                     style: ElevatedButton.styleFrom(
-                      foregroundColor:
-                          Colors.grey, // Adjust the color as needed
-                      backgroundColor:
-                          Colors.black, // Adjust the label color as needed
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      backgroundColor: Colors.lightGreen,
+                      padding: EdgeInsets.symmetric(horizontal: 50),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),
                       ),
@@ -131,6 +123,28 @@ class loginScreen extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                  SizedBox(height: 20),
+                  // "Sign Up with Google" button
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => basenav()));
+                    },
+                    icon: Image.asset(
+                      'assets/google.jpg',
+                      width: 24,
+                      height: 24,
+                    ),
+                    label: Text('Sign Up with Google'),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.grey,
+                      backgroundColor: Colors.black,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                    ),
                   ),
                 ],
               ),
