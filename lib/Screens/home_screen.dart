@@ -1,43 +1,220 @@
 import 'package:flutter/material.dart';
-import 'package:smarteco2/Screens/base_nav.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 0;
+  String temperatureValue = ''; // Variable to hold the temperature value
+  String ammoniaValue = ''; // Variable to hold the ammonia value
+  String turbidityValue = ''; // Variable to hold the turbidity value
+  String pHValue = ''; // Variable to hold the pH value
+
+  @override
+  void initState() {
+    super.initState();
+    // You can add any initialization code here if needed
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('Home Screen'),
+        backgroundColor: Color.fromARGB(255, 0, 0, 0),
+        automaticallyImplyLeading:
+            false, // Set this property to false to remove back button
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Welcome to Flutter Home Screen!',
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Add your action here
-                print('Button Pressed');
-              },
-              child: Text('Press Me'),
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Hello',
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'UserName',
+                style: TextStyle(
+                  fontFamily: 'Helvetica',
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 25),
+              Container(
+                width: double.infinity,
+                child: Card(
+                  color: Color.fromARGB(70, 66, 66, 66),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Container(
+                    constraints: BoxConstraints(minHeight: 150),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Water Status",
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                                SizedBox(height: 20),
+                                Text(
+                                  "Good",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 177, 177, 177),
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                                SizedBox(height: 20),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+                'Realtime Data',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: buildSensorCard(
+                      "Temperature",
+                      temperatureValue,
+                      Icons.thermostat,
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: buildSensorCard(
+                      "Ammonia",
+                      ammoniaValue,
+                      Icons.opacity,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: buildSensorCard(
+                      "Turbidity",
+                      turbidityValue,
+                      Icons.visibility,
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: buildSensorCard(
+                      "pH",
+                      pHValue,
+                      Icons.whatshot,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your action here
-          print('Floating Action Button Pressed');
-        },
-        child: Icon(Icons.add),
+    );
+  }
+
+  Widget buildSensorCard(
+      String sensorName, String sensorValue, IconData iconData) {
+    return Card(
+      color: Color.fromARGB(70, 66, 66, 66),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Container(
+        constraints: BoxConstraints(minHeight: 150),
+        child: Padding(
+          padding: const EdgeInsets.all(17),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: Icon(
+                  iconData,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    sensorName,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Text(
+                    sensorValue,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 177, 177, 177),
+                    ),
+                  ),
+                  SizedBox(width: 5),
+                  Text(
+                    '℃', // Degree Celsius symbol
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 177, 177, 177),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
