@@ -57,21 +57,21 @@ class _ProfileScrnState extends State<ProfileScrn> {
               SizedBox(height: 20),
               Text(
                 'Random Username', // Replace with the actual username
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
               ),
               SizedBox(height: 5),
               Text(
                 'random@example.com', // Replace with the actual email
-                style: TextStyle(fontSize: 16, color: Colors.grey),
+                style: TextStyle(fontSize: 16, color: Colors.black),
               ),
               SizedBox(height: 20),
-              buildIconButton(Icons.edit, 'Edit Profile'),
-              SizedBox(height: 10),
-              buildIconButton(Icons.settings, 'Settings'),
-              SizedBox(height: 10),
-              buildIconButton(Icons.support, 'Support'),
-              SizedBox(height: 10),
-              buildIconButton(Icons.logout, 'Logout'),
+              buildButton('Edit Profile', Icons.arrow_forward),
+              buildButton('Settings', Icons.arrow_forward),
+              buildButton('Support', Icons.arrow_forward),
+              buildButton('Logout', Icons.arrow_forward),
             ],
           ),
         ),
@@ -79,7 +79,7 @@ class _ProfileScrnState extends State<ProfileScrn> {
     );
   }
 
-  Widget buildIconButton(IconData icon, String label) {
+  Widget buildButton(String label, IconData icon) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.9,
       child: ElevatedButton(
@@ -89,18 +89,15 @@ class _ProfileScrnState extends State<ProfileScrn> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Icon(icon),
-                SizedBox(width: 10),
-                Text(label),
-              ],
-            ),
-            Icon(Icons.arrow_forward),
+            Text(label),
+            Icon(icon),
           ],
         ),
         style: ElevatedButton.styleFrom(
           fixedSize: Size(200, 50), // Adjust width and height as needed
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10), // Adjust the border radius
+          ),
         ),
       ),
     );
