@@ -3,14 +3,14 @@ import 'package:smarteco2/Screens/home_screen.dart';
 import 'package:smarteco2/Screens/notif_scrn.dart';
 import 'package:smarteco2/Screens/profile_scrn.dart';
 
-class basenav extends StatefulWidget {
-  const basenav(HomeScreen homeScreen, {Key? key}) : super(key: key);
+class BaseNav extends StatefulWidget {
+  const BaseNav( {Key? key}) : super(key: key);
 
   @override
   _BaseNavState createState() => _BaseNavState();
 }
 
-class _BaseNavState extends State<basenav> {
+class _BaseNavState extends State<BaseNav> {
   int _currentIndex = 0; // Add this line to track the current index
   List screens = [HomeScreen(), NotifScrn(), ProfileScrn()];
   @override

@@ -13,10 +13,16 @@ class _HomeScreenState extends State<HomeScreen> {
   String turbidityValue = ''; // Variable to hold the turbidity value
   String pHValue = ''; // Variable to hold the pH value
 
+  // Controllers for the text fields
+  TextEditingController currentUsageController = TextEditingController();
+  TextEditingController predictedUsageController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
-    // You can add any initialization code here if needed
+    // Sample values for demonstration
+    currentUsageController.text = '50';
+    predictedUsageController.text = '60';
   }
 
   @override
@@ -29,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: AppBar(
           flexibleSpace: FlexibleSpaceBar(),
           automaticallyImplyLeading:
-              false, // Set this property to false to remove back button
+              false, // Set this property to false to remove the back button
         ),
       ),
       body: SingleChildScrollView(
@@ -83,17 +89,59 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   textAlign: TextAlign.left,
                                 ),
-                                SizedBox(height: 20),
-                                Text(
-                                  "Good",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 177, 177, 177),
-                                  ),
-                                  textAlign: TextAlign.left,
+                                Divider(
+                                  color: Colors.white,
+                                  thickness: 1.0,
+                                  height: 20,
+                                  indent: 0,
+                                  endIndent: 0,
                                 ),
-                                SizedBox(height: 20),
+                                SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: TextField(
+                                        controller: currentUsageController,
+                                        decoration: InputDecoration(
+                                          labelText: 'Current Usage',
+                                          labelStyle: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 25,
+                                          ),
+                                        ),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                        // Add any necessary logic for handling current usage
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                      child: TextField(
+                                        controller: predictedUsageController,
+                                        decoration: InputDecoration(
+                                          labelText: 'Predicted Usage',
+                                          labelStyle: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 25,
+                                          ),
+                                        ),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                        // Add any necessary logic for handling predicted usage
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -199,16 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 children: [
                   Text(
-                    sensorValue,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 177, 177, 177),
-                    ),
-                  ),
-                  SizedBox(width: 5),
-                  Text(
-                    '℃', // Degree Celsius symbol
+                    '$sensorValue Kw/h', // Added 'Kw/h' unit
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

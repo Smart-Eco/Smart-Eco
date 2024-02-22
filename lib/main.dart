@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smarteco2/Screens/base_nav.dart';
 import 'package:smarteco2/Screens/home_screen.dart';
+import 'package:smarteco2/Screens/sign_up.dart';
 import 'package:smarteco2/Screens/splash_screens.dart';
 
 void main() {
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: HomeScreen(),
+        body: BaseNav(),
       ),
     );
   }

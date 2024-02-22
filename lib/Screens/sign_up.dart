@@ -107,8 +107,7 @@ class SignUpPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => basenav(HomeScreen())),
+                    MaterialPageRoute(builder: (context) => BaseNav()),
                   );
                 },
                 icon: Image.asset(
