@@ -80,74 +80,66 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Realtime Data',
+              SizedBox(height: 10), // Add SizedBox with height 10
+              SizedBox(
+                height: 10,
+                width: double.infinity,
+              ),
+              SizedBox(height: 10), // Add SizedBox with height 10
+              ElevatedButton(
+                onPressed: () {
+                  // Handle "Special Appliance Control" button press
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(double.infinity, 10),
+                  foregroundColor: Colors.white,
+                  shadowColor: Colors.black,
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(10), // Reduced border radius
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'Special Appliance Control',
                     style: TextStyle(
-                      fontSize: 24,
+                      color: Colors.black,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black, // Change text color to black
                     ),
                   ),
-                  PopupMenuButton<String>(
-                    icon: Icon(Icons.more_vert),
-                    onSelected: (value) {
-                      // Handle menu item selection if needed
-                    },
-                    itemBuilder: (BuildContext context) {
-                      return ['Option 1', 'Option 2', 'Option 3']
-                          .map((String choice) {
-                        return PopupMenuItem<String>(
-                          value: choice,
-                          child: Text(choice),
-                        );
-                      }).toList();
-                    },
-                  ),
-                ],
+                ),
               ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    child: buildSensorCard(
-                      "Temperature",
-                      temperatureValue,
-                      Icons.thermostat,
+              SizedBox(height: 10), // Add SizedBox with height 10
+              ElevatedButton(
+                onPressed: () {
+                  // Handle "Register Your Room" button press
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(double.infinity, 10),
+                  backgroundColor: Colors.green,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(10), // Reduced border radius
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'Register Your Room',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: buildSensorCard(
-                      "Ammonia",
-                      ammoniaValue,
-                      Icons.opacity,
-                    ),
-                  ),
-                ],
+                ),
               ),
-              SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: buildSensorCard(
-                      "Turbidity",
-                      turbidityValue,
-                      Icons.visibility,
-                    ),
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: buildSensorCard(
-                      "pH",
-                      pHValue,
-                      Icons.whatshot,
-                    ),
-                  ),
-                ],
+              Divider(
+                height: 20,
+                thickness: 2,
               ),
             ],
           ),
@@ -156,6 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Function to build a card displaying energy usage
   Widget buildEnergyUsageCard() {
     return Card(
       color: Color.fromARGB(151, 13, 202, 47),
@@ -163,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.circular(15),
       ),
       child: Container(
-        constraints: BoxConstraints(minHeight: 200), // Increase the height here
+        constraints: BoxConstraints(minHeight: 200),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(
@@ -209,7 +202,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                             ),
-                            // Add any necessary logic for handling current usage
                           ),
                         ),
                         SizedBox(width: 10),
@@ -232,7 +224,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
                                   ),
-                                  // Add any necessary logic for handling predicted usage
                                 ),
                               ),
                             ],
@@ -251,14 +242,15 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Function to build a card displaying price
   Widget buildPriceCard() {
     return Card(
-      color: Color.fromARGB(151, 47, 13, 202), // Change color for Price Card
+      color: Color.fromARGB(151, 47, 13, 202),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
       child: Container(
-        constraints: BoxConstraints(minHeight: 200), // Increase the height here
+        constraints: BoxConstraints(minHeight: 200),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(
@@ -290,61 +282,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(width: 20),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buildSensorCard(
-      String sensorName, String sensorValue, IconData iconData) {
-    return Card(
-      color: Color.fromARGB(70, 66, 66, 66),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Container(
-        constraints: BoxConstraints(minHeight: 150),
-        child: Padding(
-          padding: const EdgeInsets.all(17),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: Icon(
-                  iconData,
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    sensorName,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  Text(
-                    '$sensorValue Kw/h', // Added 'Kw/h' unit
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 177, 177, 177),
-                    ),
-                  ),
-                ],
-              ),
             ],
           ),
         ),
