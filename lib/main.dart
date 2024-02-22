@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smarteco2/Screens/home_screen.dart';
 import 'package:smarteco2/Screens/splash_screens.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: splashScreen(),
+        body: HomeScreen(),
       ),
     );
   }
