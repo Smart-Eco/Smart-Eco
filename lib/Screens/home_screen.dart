@@ -81,13 +81,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(height: 20),
-              Text(
-                'Realtime Data',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black, // Change text color to black
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Realtime Data',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black, // Change text color to black
+                    ),
+                  ),
+                  PopupMenuButton<String>(
+                    icon: Icon(Icons.more_vert),
+                    onSelected: (value) {
+                      // Handle menu item selection if needed
+                    },
+                    itemBuilder: (BuildContext context) {
+                      return ['Option 1', 'Option 2', 'Option 3']
+                          .map((String choice) {
+                        return PopupMenuItem<String>(
+                          value: choice,
+                          child: Text(choice),
+                        );
+                      }).toList();
+                    },
+                  ),
+                ],
               ),
               SizedBox(height: 20),
               Row(
@@ -194,22 +214,28 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         SizedBox(width: 10),
                         Expanded(
-                          child: TextField(
-                            controller: predictedUsageController,
-                            decoration: InputDecoration(
-                              labelText: 'Predicted Usage',
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: TextField(
+                                  controller: predictedUsageController,
+                                  decoration: InputDecoration(
+                                    labelText: 'Predicted Usage',
+                                    labelStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25,
+                                    ),
+                                  ),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                  // Add any necessary logic for handling predicted usage
+                                ),
                               ),
-                            ),
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                            // Add any necessary logic for handling predicted usage
+                            ],
                           ),
                         ),
                       ],
