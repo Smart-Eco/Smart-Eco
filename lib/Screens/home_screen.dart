@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'register_room.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -7,22 +8,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
-  String temperatureValue = ''; // Variable to hold the temperature value
-  String ammoniaValue = ''; // Variable to hold the ammonia value
-  String turbidityValue = ''; // Variable to hold the turbidity value
-  String pHValue = ''; // Variable to hold the pH value
+  String temperatureValue = '';
+  String ammoniaValue = '';
+  String turbidityValue = '';
+  String pHValue = '';
 
-  // Controllers for the text fields
   TextEditingController currentUsageController = TextEditingController();
   TextEditingController predictedUsageController = TextEditingController();
 
-  // Controller for switching between energy usage and price cards
   PageController _pageController = PageController();
 
   @override
   void initState() {
     super.initState();
-    // Sample values for demonstration
     currentUsageController.text = '50';
     predictedUsageController.text = '60';
   }
@@ -30,14 +28,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(
-          255, 255, 255, 255), // Set background color to white
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(1.0), // Set height to 1cm
+        preferredSize: Size.fromHeight(1.0),
         child: AppBar(
           flexibleSpace: FlexibleSpaceBar(),
-          automaticallyImplyLeading:
-              false, // Set this property to false to remove the back button
+          automaticallyImplyLeading: false,
         ),
       ),
       body: SingleChildScrollView(
@@ -50,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Hello',
                 style: TextStyle(
                   fontSize: 24,
-                  color: Colors.black, // Change text color to black
+                  color: Colors.black,
                 ),
               ),
               SizedBox(height: 8),
@@ -60,35 +56,28 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontFamily: 'Helvetica',
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black, // Change text color to black
+                  color: Colors.black,
                 ),
               ),
               SizedBox(height: 25),
               Container(
-                height: 200, // Set a fixed height for the energy usage card
+                height: 200,
                 child: PageView.builder(
                   controller: _pageController,
-                  itemCount: 2, // Energy Usage and Price
+                  itemCount: 2,
                   itemBuilder: (context, index) {
                     if (index == 0) {
-                      // Energy Usage Card
                       return buildEnergyUsageCard();
                     } else {
-                      // Price Card
                       return buildPriceCard();
                     }
                   },
                 ),
               ),
-              SizedBox(height: 10), // Add SizedBox with height 10
-              SizedBox(
-                height: 10,
-                width: double.infinity,
-              ),
-              SizedBox(height: 10), // Add SizedBox with height 10
+              SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
-                  // Handle "Special Appliance Control" button press
+                  navigateToRegisterRoomScreen();
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(double.infinity, 10),
@@ -96,8 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   shadowColor: Colors.black,
                   elevation: 5,
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(10), // Reduced border radius
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 child: Padding(
@@ -112,17 +100,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 10), // Add SizedBox with height 10
+              SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
-                  // Handle "Register Your Room" button press
+                  navigateToRegisterRoomScreen();
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(double.infinity, 10),
-                  backgroundColor: Colors.green,
+                  backgroundColor: Color.fromRGBO(52, 224, 161, 1),
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(10), // Reduced border radius
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 child: Padding(
@@ -148,10 +135,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Function to build a card displaying energy usage
   Widget buildEnergyUsageCard() {
     return Card(
-      color: Color.fromARGB(151, 13, 202, 47),
+      color: Color.fromRGBO(52, 224, 161, 1),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
@@ -242,7 +228,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Function to build a card displaying price
   Widget buildPriceCard() {
     return Card(
       color: Color.fromARGB(151, 47, 13, 202),
@@ -286,6 +271,16 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void navigateToRegisterRoomScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => RegisterRoomScreen(
+                numberOfRooms: 0,
+              )),
     );
   }
 }
