@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smarteco2/Screens/base_nav.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -16,6 +15,9 @@ class _HomeScreenState extends State<HomeScreen> {
   // Controllers for the text fields
   TextEditingController currentUsageController = TextEditingController();
   TextEditingController predictedUsageController = TextEditingController();
+
+  // Controller for switching between energy usage and price cards
+  PageController _pageController = PageController();
 
   @override
   void initState() {
@@ -63,93 +65,19 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 25),
               Container(
-                width: double.infinity,
-                child: Card(
-                  color: Color.fromARGB(151, 13, 202, 47),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Container(
-                    constraints: BoxConstraints(minHeight: 150),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Energy Usage",
-                                  style: TextStyle(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                Divider(
-                                  color: Colors.white,
-                                  thickness: 1.0,
-                                  height: 20,
-                                  indent: 0,
-                                  endIndent: 0,
-                                ),
-                                SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: TextField(
-                                        controller: currentUsageController,
-                                        decoration: InputDecoration(
-                                          labelText: 'Current Usage',
-                                          labelStyle: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 25,
-                                          ),
-                                        ),
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                        ),
-                                        // Add any necessary logic for handling current usage
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      child: TextField(
-                                        controller: predictedUsageController,
-                                        decoration: InputDecoration(
-                                          labelText: 'Predicted Usage',
-                                          labelStyle: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 25,
-                                          ),
-                                        ),
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                        ),
-                                        // Add any necessary logic for handling predicted usage
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 16),
-                        ],
-                      ),
-                    ),
-                  ),
+                height: 200, // Set a fixed height for the energy usage card
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: 2, // Energy Usage and Price
+                  itemBuilder: (context, index) {
+                    if (index == 0) {
+                      // Energy Usage Card
+                      return buildEnergyUsageCard();
+                    } else {
+                      // Price Card
+                      return buildPriceCard();
+                    }
+                  },
                 ),
               ),
               SizedBox(height: 20),
@@ -201,6 +129,141 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildEnergyUsageCard() {
+    return Card(
+      color: Color.fromARGB(151, 13, 202, 47),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Container(
+        constraints: BoxConstraints(minHeight: 200), // Increase the height here
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Energy Usage",
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                    Divider(
+                      color: Colors.white,
+                      thickness: 1.0,
+                      height: 20,
+                      indent: 0,
+                      endIndent: 0,
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: currentUsageController,
+                            decoration: InputDecoration(
+                              labelText: 'Current Usage',
+                              labelStyle: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                              ),
+                            ),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                            // Add any necessary logic for handling current usage
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: TextField(
+                            controller: predictedUsageController,
+                            decoration: InputDecoration(
+                              labelText: 'Predicted Usage',
+                              labelStyle: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                              ),
+                            ),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                            // Add any necessary logic for handling predicted usage
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: 10),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildPriceCard() {
+    return Card(
+      color: Color.fromARGB(151, 47, 13, 202), // Change color for Price Card
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Container(
+        constraints: BoxConstraints(minHeight: 200), // Increase the height here
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Price",
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                    Divider(
+                      color: Colors.white,
+                      thickness: 1.0,
+                      height: 20,
+                      indent: 0,
+                      endIndent: 0,
+                    ),
+                    SizedBox(height: 10),
+                    // Add widgets for Price Card
+                  ],
+                ),
+              ),
+              SizedBox(width: 20),
             ],
           ),
         ),
