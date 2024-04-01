@@ -77,6 +77,7 @@ class loginScreen extends StatelessWidget {
                   // Login Button
                   ElevatedButton(
                     onPressed: () {
+                      HomeScreen();
                       // Handle Login logic
                     },
                     child: Text('Login'),
