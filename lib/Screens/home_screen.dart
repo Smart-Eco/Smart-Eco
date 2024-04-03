@@ -173,21 +173,35 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: TextField(
-                            controller: currentUsageController,
-                            decoration: InputDecoration(
-                              labelText: 'Current Usage',
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25,
+                          child: Column(
+                            children: [
+                              Text(
+                                "Current Usage",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                ),
+                                textAlign: TextAlign.left,
                               ),
-                            ),
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
+                              Text(
+                                "60",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                              SizedBox(
+                                height: 2.0, // Adjust height as needed
+                                width: double.infinity, // Expands to full width
+                                child: ColoredBox(
+                                  color: Color.fromARGB(
+                                      255, 255, 255, 255), // Set desired color
+                                ),
+                              )
+                            ],
                           ),
                         ),
                         SizedBox(width: 10),
@@ -195,21 +209,38 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Row(
                             children: [
                               Expanded(
-                                child: TextField(
-                                  controller: predictedUsageController,
-                                  decoration: InputDecoration(
-                                    labelText: 'Predicted Usage',
-                                    labelStyle: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 25,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Current Usage",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                      ),
+                                      textAlign: TextAlign.left,
                                     ),
-                                  ),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
+                                    Text(
+                                      "60",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.normal,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    SizedBox(
+                                      height: 2.0, // Adjust height as needed
+                                      width: double
+                                          .infinity, // Expands to full width
+                                      child: ColoredBox(
+                                        color: Color.fromARGB(255, 255, 255,
+                                            255), // Set desired color
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
                             ],
@@ -230,7 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget buildPriceCard() {
     return Card(
-      color: Color.fromARGB(151, 47, 13, 202),
+      color: Color.fromRGBO(112, 52, 224, 1),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
@@ -262,11 +293,89 @@ class _HomeScreenState extends State<HomeScreen> {
                       endIndent: 0,
                     ),
                     SizedBox(height: 10),
-                    // Add widgets for Price Card
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                "Current Usage",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                              Text(
+                                "60",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                              SizedBox(
+                                height: 2.0, // Adjust height as needed
+                                width: double.infinity, // Expands to full width
+                                child: ColoredBox(
+                                  color: Color.fromARGB(
+                                      255, 255, 255, 255), // Set desired color
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Current Usage",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    Text(
+                                      "60",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.normal,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    SizedBox(
+                                      height: 2.0, // Adjust height as needed
+                                      width: double
+                                          .infinity, // Expands to full width
+                                      child: ColoredBox(
+                                        color: Color.fromARGB(255, 255, 255,
+                                            255), // Set desired color
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
-              SizedBox(width: 20),
+              SizedBox(width: 10),
             ],
           ),
         ),
