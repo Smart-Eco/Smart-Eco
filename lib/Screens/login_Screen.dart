@@ -80,7 +80,7 @@ class loginScreen extends StatelessWidget {
                       // Navigate to HomeScreen
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                        MaterialPageRoute(builder: (context) => BaseNav()),
                       );
                     },
                     child: Text('Login'),
