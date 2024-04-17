@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
-                  navigateToRegisterRoomScreen();
+                  ;
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(double.infinity, 10),
@@ -409,17 +409,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         },
-      ),
-    );
-  }
-
-  void navigateToRegisterRoomScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => RegisterRoomScreen(
-          numberOfRooms: 0,
-        ),
       ),
     );
   }
