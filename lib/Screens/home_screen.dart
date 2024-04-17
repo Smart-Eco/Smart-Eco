@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'Special Appliance Control',
+                    'Last Month Report',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 18,
