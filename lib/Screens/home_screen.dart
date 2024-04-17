@@ -9,10 +9,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
-  String temperatureValue = '';
-  String ammoniaValue = '';
-  String turbidityValue = '';
-  String pHValue = '';
 
   TextEditingController currentUsageController = TextEditingController();
   TextEditingController predictedUsageController = TextEditingController();

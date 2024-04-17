@@ -11,6 +11,8 @@ class DeviceDetailsScreen extends StatefulWidget {
 
 class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
   bool isSwitched = false;
+  double currentUsage = 0.0; // Placeholder for current usage
+  double price = 0.0; // Placeholder for price
 
   @override
   Widget build(BuildContext context) {
@@ -18,24 +20,89 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
       appBar: AppBar(
         title: Text(widget.deviceName),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Device Status: ${isSwitched ? 'ON' : 'OFF'}',
-              style: TextStyle(fontSize: 24),
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Device Status:',
+                  style: TextStyle(fontSize: 24),
+                ),
+                Switch(
+                  value: isSwitched,
+                  onChanged: (value) {
+                    setState(() {
+                      isSwitched = value;
+                    });
+                  },
+                ),
+              ],
             ),
-            Switch(
-              value: isSwitched,
-              onChanged: (value) {
-                setState(() {
-                  isSwitched = value;
-                });
-              },
+          ),
+          Expanded(
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  height: 150,
+                  width: 450,
+                  child: Card(
+                    elevation: 5,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            'Current Usage',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            '${currentUsage.toStringAsFixed(2)} kWh',
+                            style: TextStyle(fontSize: 24),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Container(
+                  height: 170,
+                  width: 450,
+                  child: Card(
+                    elevation: 5,
+                    child: Padding(
+                      padding: const EdgeInsets.all(25.0),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            'Price',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            '\$${price.toStringAsFixed(3)}',
+                            style: TextStyle(fontSize: 34),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
