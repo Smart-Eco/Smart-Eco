@@ -1,5 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'package:smarteco2/Screens/device_details.dart';
+import 'package:smarteco2/Screens/history_page.dart';
 import 'register_room.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -78,7 +80,10 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
-                  ;
+                  Navigator.push(
+                    context,
+                      MaterialPageRoute(builder: (context) => HistoryPage()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(double.infinity, 10),
