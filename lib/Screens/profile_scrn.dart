@@ -136,7 +136,7 @@ class ProfileScrn extends StatelessWidget {
         return AlertDialog(
           backgroundColor: const Color.fromRGBO(52, 225, 162, 1),
           title: const Text('Warning'),
-          content: const Text('Do you want to reset all the data?'),
+          content: const Text('Do you want to reset the bill?'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
