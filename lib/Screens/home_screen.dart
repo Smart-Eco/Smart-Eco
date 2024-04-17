@@ -12,6 +12,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   TextEditingController currentUsageController = TextEditingController();
   TextEditingController predictedUsageController = TextEditingController();
+  TextEditingController _priceLimitController = TextEditingController();
+  double priceLimit = 100; // Default value for Price Limit
 
   PageController _pageController = PageController();
 
@@ -155,111 +157,94 @@ class _HomeScreenState extends State<HomeScreen> {
         constraints: BoxConstraints(minHeight: 200),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Row(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Energy Usage",
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
-                    Divider(
-                      color: Colors.white,
-                      thickness: 1.0,
-                      height: 20,
-                      indent: 0,
-                      endIndent: 0,
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Text(
+                "Energy Usage",
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
+                textAlign: TextAlign.left,
+              ),
+              Divider(
+                color: Colors.white,
+                thickness: 1.0,
+                height: 20,
+                indent: 0,
+                endIndent: 0,
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Text(
-                                "Current Usage",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                              Text(
-                                "60",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                              SizedBox(
-                                height: 2.0,
-                                width: double.infinity,
-                                child: ColoredBox(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ),
-                              )
-                            ],
+                        Text(
+                          "Current Usage",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 255, 255, 255),
                           ),
+                          textAlign: TextAlign.left,
                         ),
-                        SizedBox(width: 10),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "Current Usage",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                    Text(
-                                      "60",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.normal,
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                    SizedBox(
-                                      height: 2.0,
-                                      width: double.infinity,
-                                      child: ColoredBox(
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
+                        Text(
+                          "${currentUsageController.text} kWh",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.normal,
+                            color: Color.fromARGB(255, 255, 255, 255),
                           ),
+                          textAlign: TextAlign.left,
                         ),
+                        SizedBox(
+                          height: 2.0,
+                          width: double.infinity,
+                          child: ColoredBox(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        )
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text(
+                          "Predicted Usage",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                        Text(
+                          "${predictedUsageController.text} kWh",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.normal,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                        SizedBox(
+                          height: 2.0,
+                          width: double.infinity,
+                          child: ColoredBox(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(width: 10),
             ],
           ),
         ),
@@ -277,115 +262,115 @@ class _HomeScreenState extends State<HomeScreen> {
         constraints: BoxConstraints(minHeight: 200),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Row(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Price",
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                      textAlign: TextAlign.left,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Price",
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 255, 255, 255),
                     ),
-                    Divider(
-                      color: Colors.white,
-                      thickness: 1.0,
-                      height: 20,
-                      indent: 0,
-                      endIndent: 0,
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Text(
-                                "Current Usage",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                              Text(
-                                "60",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                              SizedBox(
-                                height: 2.0,
-                                width: double.infinity,
-                                child: ColoredBox(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "Current Usage",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                    Text(
-                                      "60",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.normal,
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                    SizedBox(
-                                      height: 2.0,
-                                      width: double.infinity,
-                                      child: ColoredBox(
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                    textAlign: TextAlign.left,
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.more_vert),
+                    color: Colors.white,
+                    onPressed: () {
+                      _showEditPriceLimitPopup(context);
+                    },
+                  ),
+                ],
               ),
-              SizedBox(width: 10),
+              Divider(
+                color: Colors.white,
+                thickness: 1.0,
+                height: 20,
+                indent: 0,
+                endIndent: 0,
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Total Price",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                  ),
+                  Text(
+                    "60", // Replace with the actual total price value
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    "Price Limit",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                  ),
+                  Text(
+                    "$priceLimit", // Display the Price Limit value
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void _showEditPriceLimitPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Edit Price Limit'),
+          content: TextField(
+            controller: _priceLimitController,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(labelText: 'Price Limit'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Update the Price Limit in the main screen
+                setState(() {
+                  // Update the Price Limit value in the main screen state
+                  priceLimit = double.parse(_priceLimitController.text);
+                });
+                Navigator.of(context).pop();
+              },
+              child: Text('Save'),
+            ),
+          ],
+        );
+      },
     );
   }
 
