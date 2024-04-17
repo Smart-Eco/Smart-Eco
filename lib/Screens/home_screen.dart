@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smarteco2/Screens/device_details.dart';
 import 'register_room.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,6 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController predictedUsageController = TextEditingController();
 
   PageController _pageController = PageController();
+
+  List<String> devices = ['Bulb', 'Fan', 'Motor', 'asd'];
 
   @override
   void initState() {
@@ -103,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
-                  navigateToRegisterRoomScreen();
+                  navigateToAddDeviceScreen();
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(double.infinity, 10),
@@ -115,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'Register Your Room',
+                    'Add Device',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -124,10 +127,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
+              SizedBox(height: 10),
               Divider(
                 height: 20,
                 thickness: 2,
               ),
+              SizedBox(height: 10),
+              Text(
+                'Devices',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              buildDeviceTiles(),
             ],
           ),
         ),
@@ -194,11 +208,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 textAlign: TextAlign.left,
                               ),
                               SizedBox(
-                                height: 2.0, // Adjust height as needed
-                                width: double.infinity, // Expands to full width
+                                height: 2.0,
+                                width: double.infinity,
                                 child: ColoredBox(
-                                  color: Color.fromARGB(
-                                      255, 255, 255, 255), // Set desired color
+                                  color: Color.fromARGB(255, 255, 255, 255),
                                 ),
                               )
                             ],
@@ -232,12 +245,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                       textAlign: TextAlign.left,
                                     ),
                                     SizedBox(
-                                      height: 2.0, // Adjust height as needed
-                                      width: double
-                                          .infinity, // Expands to full width
+                                      height: 2.0,
+                                      width: double.infinity,
                                       child: ColoredBox(
-                                        color: Color.fromARGB(255, 255, 255,
-                                            255), // Set desired color
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
                                       ),
                                     )
                                   ],
@@ -318,11 +330,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 textAlign: TextAlign.left,
                               ),
                               SizedBox(
-                                height: 2.0, // Adjust height as needed
-                                width: double.infinity, // Expands to full width
+                                height: 2.0,
+                                width: double.infinity,
                                 child: ColoredBox(
-                                  color: Color.fromARGB(
-                                      255, 255, 255, 255), // Set desired color
+                                  color: Color.fromARGB(255, 255, 255, 255),
                                 ),
                               )
                             ],
@@ -356,12 +367,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                       textAlign: TextAlign.left,
                                     ),
                                     SizedBox(
-                                      height: 2.0, // Adjust height as needed
-                                      width: double
-                                          .infinity, // Expands to full width
+                                      height: 2.0,
+                                      width: double.infinity,
                                       child: ColoredBox(
-                                        color: Color.fromARGB(255, 255, 255,
-                                            255), // Set desired color
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
                                       ),
                                     )
                                   ],
@@ -383,13 +393,102 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget buildDeviceTiles() {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: (devices.length / 2).ceil(),
+      itemBuilder: (context, index) {
+        return Row(
+          children: [
+            Expanded(
+              child: buildDeviceCard(devices[index * 2]),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: (index * 2 + 1 < devices.length)
+                  ? buildDeviceCard(devices[index * 2 + 1])
+                  : SizedBox(),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget buildDeviceCard(String deviceName) {
+    return Card(
+      child: ListTile(
+        title: Text(deviceName),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DeviceDetailsScreen(deviceName: deviceName),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   void navigateToRegisterRoomScreen() {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => RegisterRoomScreen(
-                numberOfRooms: 0,
-              )),
+        builder: (context) => RegisterRoomScreen(
+          numberOfRooms: 0,
+        ),
+      ),
+    );
+  }
+
+  void navigateToAddDeviceScreen() async {
+    final newDevice = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(builder: (context) => AddDeviceScreen()),
+    );
+    if (newDevice != null) {
+      setState(() {
+        devices.add(newDevice);
+      });
+    }
+  }
+}
+
+class AddDeviceScreen extends StatelessWidget {
+  final TextEditingController _deviceNameController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Add Device'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextField(
+              controller: _deviceNameController,
+              decoration: InputDecoration(
+                labelText: 'Device Name',
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                final deviceName = _deviceNameController.text.trim();
+                if (deviceName.isNotEmpty) {
+                  Navigator.pop(context, deviceName);
+                }
+              },
+              child: Text('Add'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
