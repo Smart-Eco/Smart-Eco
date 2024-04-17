@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'Last Month Report',
+                    'HISTORY',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 18,
@@ -116,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'Add Device',
+                    'ADD DEVICE',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
