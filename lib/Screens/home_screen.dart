@@ -20,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   PageController _pageController = PageController();
 
   List<String> devices = ['Bulb', 'Fan', 'Motor', 'asd'];
+  List<String> notifications = [];
 
   @override
   void initState() {
@@ -33,9 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(1.0),
+        preferredSize: const Size.fromHeight(1.0),
         child: AppBar(
-          flexibleSpace: FlexibleSpaceBar(),
+          flexibleSpace: const FlexibleSpaceBar(),
           automaticallyImplyLeading: false,
         ),
       ),
@@ -45,15 +46,15 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Hello',
                 style: TextStyle(
                   fontSize: 24,
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: 8),
-              Text(
+              const SizedBox(height: 8),
+              const Text(
                 'UserName',
                 style: TextStyle(
                   fontFamily: 'Helvetica',
@@ -62,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: 25),
+              const SizedBox(height: 25),
               Container(
                 height: 200,
                 child: PageView.builder(
@@ -77,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -86,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 10),
+                  minimumSize: const Size(double.infinity, 10),
                   foregroundColor: Colors.white,
                   shadowColor: Colors.black,
                   elevation: 5,
@@ -94,10 +95,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(16.0),
                   child: Text(
-                    'HISTORY',
+                    'Usage Stats',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 18,
@@ -106,22 +107,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
                   navigateToAddDeviceScreen();
                 },
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 10),
-                  backgroundColor: Color.fromRGBO(52, 224, 161, 1),
+                  minimumSize: const Size(double.infinity, 10),
+                  backgroundColor: const Color.fromRGBO(52, 224, 161, 1),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(16.0),
                   child: Text(
-                    'ADD DEVICE',
+                    'Add Device',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -130,20 +131,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
-              Divider(
+              const SizedBox(height: 10),
+              const Divider(
                 height: 20,
                 thickness: 2,
               ),
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                 'Devices',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               buildDeviceTiles(),
             ],
           ),
@@ -154,18 +155,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget buildEnergyUsageCard() {
     return Card(
-      color: Color.fromRGBO(52, 224, 161, 1),
+      color: const Color.fromRGBO(52, 224, 161, 1),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
       child: Container(
-        constraints: BoxConstraints(minHeight: 200),
+        constraints: const BoxConstraints(minHeight: 200),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Energy Usage",
                 style: TextStyle(
                   fontSize: 28,
@@ -174,21 +175,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 textAlign: TextAlign.left,
               ),
-              Divider(
+              const Divider(
                 color: Colors.white,
                 thickness: 1.0,
                 height: 20,
                 indent: 0,
                 endIndent: 0,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
                     child: Column(
                       children: [
-                        Text(
+                        const Text(
                           "Current Usage",
                           style: TextStyle(
                             fontSize: 20,
@@ -199,14 +200,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Text(
                           "${currentUsageController.text} kWh",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.normal,
                             color: Color.fromARGB(255, 255, 255, 255),
                           ),
                           textAlign: TextAlign.left,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 2.0,
                           width: double.infinity,
                           child: ColoredBox(
@@ -216,11 +217,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: Column(
                       children: [
-                        Text(
+                        const Text(
                           "Predicted Usage",
                           style: TextStyle(
                             fontSize: 20,
@@ -231,14 +232,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Text(
                           "${predictedUsageController.text} kWh",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.normal,
                             color: Color.fromARGB(255, 255, 255, 255),
                           ),
                           textAlign: TextAlign.left,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 2.0,
                           width: double.infinity,
                           child: ColoredBox(
@@ -258,109 +259,135 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildPriceCard() {
-    return Card(
-      color: Color.fromRGBO(112, 52, 224, 1),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Container(
-        constraints: BoxConstraints(minHeight: 200),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Price",
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                    textAlign: TextAlign.left,
+  double totalPrice = 60; // Placeholder for total price calculation
+  bool showNotification = totalPrice > priceLimit * 0.7;
+  String notificationMessage = "The consumption has reached more than 70% of the price limit set.";
+
+  if (showNotification) {
+    // Add notification to the notifications list
+    if (!notifications.contains(notificationMessage)) {
+      notifications.add(notificationMessage);
+    }
+
+    // Show snackbar notification
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(notificationMessage),
+        ),
+      );
+    });
+  }
+
+  return Card(
+    color: Color.fromRGBO(112, 52, 224, 1),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15),
+    ),
+    child: Container(
+      constraints: BoxConstraints(minHeight: 200),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Price",
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
-                  IconButton(
-                    icon: Icon(Icons.more_vert),
-                    color: Colors.white,
-                    onPressed: () {
-                      _showEditPriceLimitPopup(context);
-                    },
+                  textAlign: TextAlign.left,
+                ),
+                IconButton(
+                  icon: Icon(Icons.more_vert),
+                  color: Colors.white,
+                  onPressed: () {
+                    _showEditPriceLimitPopup(context);
+                  },
+                ),
+              ],
+            ),
+            Divider(
+              color: Colors.white,
+              thickness: 1.0,
+              height: 20,
+              indent: 0,
+              endIndent: 0,
+            ),
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Total Price",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
-                ],
-              ),
-              Divider(
-                color: Colors.white,
-                thickness: 1.0,
-                height: 20,
-                indent: 0,
-                endIndent: 0,
-              ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Total Price",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
+                ),
+                Text(
+                  "$totalPrice", // Replace with the actual total price value
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.normal,
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
-                  Text(
-                    "60", // Replace with the actual total price value
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.normal,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Price Limit",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
-                  SizedBox(height: 10),
-                  Text(
-                    "Price Limit",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
+                ),
+                Text(
+                  "$priceLimit", // Display the Price Limit value
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.normal,
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
-                  Text(
-                    "$priceLimit", // Display the Price Limit value
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.normal,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   void _showEditPriceLimitPopup(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Edit Price Limit'),
+          title: const Text('Edit Price Limit'),
           content: TextField(
             controller: _priceLimitController,
             keyboardType: TextInputType.number,
-            decoration: InputDecoration(labelText: 'Price Limit'),
+            decoration: const InputDecoration(labelText: 'Price Limit'),
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -371,7 +398,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
                 Navigator.of(context).pop();
               },
-              child: Text('Save'),
+              child: const Text('Save'),
             ),
           ],
         );
@@ -382,7 +409,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget buildDeviceTiles() {
     return ListView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: (devices.length / 2).ceil(),
       itemBuilder: (context, index) {
         return Row(
@@ -390,11 +417,11 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: buildDeviceCard(devices[index * 2]),
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Expanded(
               child: (index * 2 + 1 < devices.length)
                   ? buildDeviceCard(devices[index * 2 + 1])
-                  : SizedBox(),
+                  : const SizedBox(),
             ),
           ],
         );
@@ -438,7 +465,7 @@ class AddDeviceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Device'),
+        title: const Text('Add Device'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -447,11 +474,11 @@ class AddDeviceScreen extends StatelessWidget {
           children: [
             TextField(
               controller: _deviceNameController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Device Name',
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 final deviceName = _deviceNameController.text.trim();
@@ -459,7 +486,7 @@ class AddDeviceScreen extends StatelessWidget {
                   Navigator.pop(context, deviceName);
                 }
               },
-              child: Text('Add'),
+              child: const Text('Add'),
             ),
           ],
         ),
