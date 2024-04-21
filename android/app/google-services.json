@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "433736581248",
+    "firebase_url": "https://smarteco-61678-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "smarteco-61678",
+    "storage_bucket": "smarteco-61678.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:433736581248:android:a1f04d133681bb48c3e665",
+        "android_client_info": {
+          "package_name": "com.example.smarteco2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFLJf5OBlqSLt6f1qJIRcYFN9_awh7Mrg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

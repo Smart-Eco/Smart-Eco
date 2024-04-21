@@ -1,23 +1,57 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:smarteco2/Screens/base_nav.dart';
 import 'package:smarteco2/Screens/home_screen.dart';
 import 'package:smarteco2/Screens/login_Screen.dart';
-import 'package:smarteco2/Screens/sign_up.dart';
-import 'package:smarteco2/Screens/splash_screens.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:smarteco2/firebase_options.dart';
 
-void main() {
+
+void main()async {
+   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+   bool isLoggin = false;
+
+  checkState() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    auth.authStateChanges().listen((User? user) {
+      if (user != null && mounted) {
+        setState(() {
+          isLoggin = true;
+        });
+      } else {
+        setState(() {
+          isLoggin = false;
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkState();
+  }
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return  MaterialApp(
+      debugShowCheckedModeBanner: false,
+      routes: {
+        '/home': (context) =>  HomeScreen(),
+        '/signout': (context) =>  const LoginScreen(),
+      },
       home: Scaffold(
-        body: loginScreen(),
+        body: isLoggin? HomeScreen(): const LoginScreen(),
       ),
     );
   }

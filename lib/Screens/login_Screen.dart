@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:smarteco2/Screens/base_nav.dart';
-import 'package:smarteco2/Screens/home_screen.dart';
 import 'package:smarteco2/Screens/sign_up.dart';
-import 'sign_up.dart'; // Import the SignUpPage
+import 'package:smarteco2/services/auth_service.dart';
 
-class loginScreen extends StatelessWidget {
-  const loginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -23,17 +23,18 @@ class loginScreen extends StatelessWidget {
                     child: Text(
                       'SmartEco',
                       style: GoogleFonts.rubik(
-                        color: Color.fromARGB(133, 0, 0, 0),
+                        color: const Color.fromARGB(133, 0, 0, 0),
                         fontSize: 48,
                         fontWeight: FontWeight.w500,
                         height: 0,
                       ),
                     ),
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: TextField(
+                      controller: emailController,
                       decoration: InputDecoration(
                         labelText: 'Email id',
                         hintText: 'abc@gmail.com',
@@ -41,20 +42,21 @@ class loginScreen extends StatelessWidget {
                         fillColor: Colors.grey[200],
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
-                          borderSide: BorderSide(color: Colors.transparent),
+                          borderSide: const BorderSide(color: Colors.transparent),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.lightGreen, width: 2.0),
+                              const BorderSide(color: Colors.lightGreen, width: 2.0),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: TextField(
+                      controller: passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: 'Password',
@@ -63,36 +65,54 @@ class loginScreen extends StatelessWidget {
                         fillColor: Colors.grey[200],
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
-                          borderSide: BorderSide(color: Colors.transparent),
+                          borderSide: const BorderSide(color: Colors.transparent),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.lightGreen, width: 2.0),
+                              const BorderSide(color: Colors.lightGreen, width: 2.0),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   // Login Button
                   ElevatedButton(
                     onPressed: () {
+                      AuthService auth = AuthService();
+                      try {
+                        if (passwordController.text.isEmpty ||
+                            emailController.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Field is empty')),
+                          );
+                        } else {
+                          auth
+                              .signIn(emailController.text,
+                                  passwordController.text, context)
+                              .then((value) {
+                              Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
+                            emailController.clear();
+                            passwordController.clear();
+                          });
+                        }
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Field is empty')));
+                      }
+
                       // Navigate to HomeScreen
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => BaseNav()),
-                      );
                     },
-                    child: Text('Login'),
+                    child:  Text('Login'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromRGBO(52, 224, 161, 1),
-                      padding: EdgeInsets.symmetric(horizontal: 50),
+                      backgroundColor: const Color.fromRGBO(52, 224, 161, 1),
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   // "Sign Up" and "Forgot Password?" TextButtons
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -103,20 +123,20 @@ class loginScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SignUpPage()),
+                                builder: (context) => const SignUpPage()),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           'Sign Up',
                           style: TextStyle(color: Colors.grey),
                         ),
                       ),
-                      SizedBox(width: 2),
+                      const SizedBox(width: 2),
                       TextButton(
                         onPressed: () {
                           // Implement forgot password logic here
                         },
-                        child: Text(
+                        child: const Text(
                           'Forgot Password?',
                           style: TextStyle(color: Colors.grey),
                         ),
@@ -132,10 +152,4 @@ class loginScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: loginScreen(),
-  ));
 }

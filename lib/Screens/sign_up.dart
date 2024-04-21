@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smarteco2/Screens/base_nav.dart';
-import 'package:smarteco2/Screens/home_screen.dart';
+import 'package:smarteco2/services/auth_service.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -24,8 +26,8 @@ class SignUpPage extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                 'SIGNUP',
                 style: TextStyle(
                   fontSize: 18,
@@ -34,17 +36,18 @@ class SignUpPage extends StatelessWidget {
                   letterSpacing: 1.5,
                 ),
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'Looks like you don’t have an account. Let’s create a new account for you.',
                 style: TextStyle(fontSize: 16),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Name',
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.green, width: 2.0),
+                    borderSide:
+                        const BorderSide(color: Colors.green, width: 2.0),
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                   border: OutlineInputBorder(
@@ -52,12 +55,14 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.green, width: 2.0),
+                    borderSide:
+                        const BorderSide(color: Colors.green, width: 2.0),
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                   border: OutlineInputBorder(
@@ -65,13 +70,15 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextField(
+                controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: 'Password',
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.green, width: 2.0),
+                    borderSide:
+                        const BorderSide(color: Colors.green, width: 2.0),
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                   border: OutlineInputBorder(
@@ -79,35 +86,62 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
+                  AuthService auth = AuthService();
+                  debugPrint('btn pressed');
+                  try {
+                    if (passwordController.text.isEmpty ||
+                        emailController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Field is empty')),
+                      );
+                      if (passwordController.text.length < 6) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Password should be 6 digit')),
+                        );
+                      }
+                    } else {
+                      auth
+                          .signUp(emailController.text, passwordController.text)
+                          .then((value) {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/home', (route) => false);
+
+                        emailController.clear();
+                        passwordController.clear();
+                      });
+                    }
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Please try again later')),
+                    );
+                  }
+
                   // Handle Sign Up logic
 
                   // Navigate to HomeScreen after sign up
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
-                  );
                 },
-                child: Text('SIGN UP'),
+                child: const Text('SIGN UP'),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
-                  backgroundColor: Color.fromRGBO(52, 224, 161, 1),
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  backgroundColor: const Color.fromRGBO(52, 224, 161, 1),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              Divider(),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
+              const Divider(),
+              const SizedBox(height: 20),
               ElevatedButton.icon(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => BaseNav()),
+                    MaterialPageRoute(builder: (context) => const BaseNav()),
                   );
                 },
                 icon: Image.asset(
@@ -115,11 +149,11 @@ class SignUpPage extends StatelessWidget {
                   width: 24,
                   height: 24,
                 ),
-                label: Text('Sign Up with Google'),
+                label: const Text('Sign Up with Google'),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.grey,
                   backgroundColor: Colors.black,
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                   ),
@@ -134,7 +168,7 @@ class SignUpPage extends StatelessWidget {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: SignUpPage(),
   ));
 }

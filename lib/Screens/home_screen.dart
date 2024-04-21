@@ -1,26 +1,27 @@
-
 import 'package:flutter/material.dart';
 import 'package:smarteco2/Screens/device_details.dart';
 import 'package:smarteco2/Screens/history_page.dart';
-import 'register_room.dart';
+import 'package:smarteco2/services/auth_service.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
 
   TextEditingController currentUsageController = TextEditingController();
   TextEditingController predictedUsageController = TextEditingController();
-  TextEditingController _priceLimitController = TextEditingController();
+  final TextEditingController _priceLimitController = TextEditingController();
   double priceLimit = 100; // Default value for Price Limit
 
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
 
   List<String> devices = ['Bulb', 'Fan', 'Motor', 'asd'];
   List<String> notifications = [];
+  AuthService auth = AuthService();
 
   @override
   void initState() {
@@ -33,38 +34,52 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(1.0),
-        child: AppBar(
-          flexibleSpace: const FlexibleSpaceBar(),
-          automaticallyImplyLeading: false,
+      appBar: 
+        AppBar(
+          toolbarHeight: 100,
+          flexibleSpace: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 10,horizontal: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [ 
+                SizedBox(height: 10,),
+                Text(
+                  'Hello',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.black,
+                  ),
+                ),
+                
+                Text(
+                  'UserName',
+                  style: TextStyle(
+                    fontFamily: 'Helvetica',
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),],
+            ),
+          ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  auth.logout(context);
+                },
+                icon: const Icon(Icons.logout))
+          ],
         ),
-      ),
+      
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Hello',
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'UserName',
-                style: TextStyle(
-                  fontFamily: 'Helvetica',
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
+             
               const SizedBox(height: 25),
-              Container(
+              SizedBox(
                 height: 200,
                 child: PageView.builder(
                   controller: _pageController,
@@ -83,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                      MaterialPageRoute(builder: (context) => HistoryPage()),
+                    MaterialPageRoute(builder: (context) => HistoryPage()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -259,117 +274,117 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildPriceCard() {
-  double totalPrice = 60; // Placeholder for total price calculation
-  bool showNotification = totalPrice > priceLimit * 0.7;
-  String notificationMessage = "The consumption has reached more than 70% of the price limit set.";
+    double totalPrice = 60; // Placeholder for total price calculation
+    bool showNotification = totalPrice > priceLimit * 0.7;
+    String notificationMessage =
+        "The consumption has reached more than 70% of the price limit set.";
 
-  if (showNotification) {
-    // Add notification to the notifications list
-    if (!notifications.contains(notificationMessage)) {
-      notifications.add(notificationMessage);
+    if (showNotification) {
+      // Add notification to the notifications list
+      if (!notifications.contains(notificationMessage)) {
+        notifications.add(notificationMessage);
+      }
+
+      // Show snackbar notification
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(notificationMessage),
+          ),
+        );
+      });
     }
 
-    // Show snackbar notification
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(notificationMessage),
-        ),
-      );
-    });
-  }
-
-  return Card(
-    color: Color.fromRGBO(112, 52, 224, 1),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(15),
-    ),
-    child: Container(
-      constraints: BoxConstraints(minHeight: 200),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Price",
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 255, 255, 255),
+    return Card(
+      color: const Color.fromRGBO(112, 52, 224, 1),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Container(
+        constraints: const BoxConstraints(minHeight: 200),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Price",
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    textAlign: TextAlign.left,
                   ),
-                  textAlign: TextAlign.left,
-                ),
-                IconButton(
-                  icon: Icon(Icons.more_vert),
-                  color: Colors.white,
-                  onPressed: () {
-                    _showEditPriceLimitPopup(context);
-                  },
-                ),
-              ],
-            ),
-            Divider(
-              color: Colors.white,
-              thickness: 1.0,
-              height: 20,
-              indent: 0,
-              endIndent: 0,
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Total Price",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 255, 255, 255),
+                  IconButton(
+                    icon: const Icon(Icons.more_vert),
+                    color: Colors.white,
+                    onPressed: () {
+                      _showEditPriceLimitPopup(context);
+                    },
                   ),
-                ),
-                Text(
-                  "$totalPrice", // Replace with the actual total price value
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.normal,
-                    color: Color.fromARGB(255, 255, 255, 255),
+                ],
+              ),
+              const Divider(
+                color: Colors.white,
+                thickness: 1.0,
+                height: 20,
+                indent: 0,
+                endIndent: 0,
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Total Price",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Price Limit",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 255, 255, 255),
+                  Text(
+                    "$totalPrice", // Replace with the actual total price value
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
                   ),
-                ),
-                Text(
-                  "$priceLimit", // Display the Price Limit value
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.normal,
-                    color: Color.fromARGB(255, 255, 255, 255),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Price Limit",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  Text(
+                    "$priceLimit", // Display the Price Limit value
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 
   void _showEditPriceLimitPopup(BuildContext context) {
     showDialog(
@@ -460,6 +475,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class AddDeviceScreen extends StatelessWidget {
   final TextEditingController _deviceNameController = TextEditingController();
+
+  AddDeviceScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
