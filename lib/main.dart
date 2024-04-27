@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:smarteco2/Screens/home_screen.dart';
 import 'package:smarteco2/Screens/login_Screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:smarteco2/Screens/splash_screens.dart';
 import 'package:smarteco2/firebase_options.dart';
 
-
-void main()async {
-   WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
@@ -20,7 +20,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-   bool isLoggin = false;
+  bool isLoggin = false;
 
   checkState() async {
     FirebaseAuth auth = FirebaseAuth.instance;
@@ -42,16 +42,17 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     checkState();
   }
+
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
-        '/home': (context) =>  HomeScreen(),
-        '/signout': (context) =>  const LoginScreen(),
+        '/home': (context) => HomeScreen(),
+        '/signout': (context) => const LoginScreen(),
       },
       home: Scaffold(
-        body: isLoggin? HomeScreen(): const LoginScreen(),
+        body: isLoggin ? HomeScreen() : const splashScreen(),
       ),
     );
   }

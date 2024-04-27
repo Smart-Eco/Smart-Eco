@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smarteco2/Screens/base_nav.dart';
 import 'package:smarteco2/Screens/sign_up.dart';
 import 'package:smarteco2/services/auth_service.dart';
 
@@ -42,11 +43,12 @@ class LoginScreen extends StatelessWidget {
                         fillColor: Colors.grey[200],
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
-                          borderSide: const BorderSide(color: Colors.transparent),
+                          borderSide:
+                              const BorderSide(color: Colors.transparent),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.lightGreen, width: 2.0),
+                          borderSide: const BorderSide(
+                              color: Colors.lightGreen, width: 2.0),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                       ),
@@ -65,11 +67,12 @@ class LoginScreen extends StatelessWidget {
                         fillColor: Colors.grey[200],
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
-                          borderSide: const BorderSide(color: Colors.transparent),
+                          borderSide:
+                              const BorderSide(color: Colors.transparent),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.lightGreen, width: 2.0),
+                          borderSide: const BorderSide(
+                              color: Colors.lightGreen, width: 2.0),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                       ),
@@ -79,6 +82,11 @@ class LoginScreen extends StatelessWidget {
                   // Login Button
                   ElevatedButton(
                     onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const BaseNav()),
+                      );
                       AuthService auth = AuthService();
                       try {
                         if (passwordController.text.isEmpty ||
@@ -91,7 +99,8 @@ class LoginScreen extends StatelessWidget {
                               .signIn(emailController.text,
                                   passwordController.text, context)
                               .then((value) {
-                              Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                '/home', (route) => false);
                             emailController.clear();
                             passwordController.clear();
                           });
@@ -103,7 +112,7 @@ class LoginScreen extends StatelessWidget {
 
                       // Navigate to HomeScreen
                     },
-                    child:  Text('Login'),
+                    child: Text('Login'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(52, 224, 161, 1),
                       padding: const EdgeInsets.symmetric(horizontal: 50),
