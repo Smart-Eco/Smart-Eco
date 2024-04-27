@@ -108,7 +108,7 @@ class SignUpPage extends StatelessWidget {
                           .signUp(emailController.text, passwordController.text)
                           .then((value) {
                         Navigator.pushNamedAndRemoveUntil(
-                            context, '/home', (route) => false);
+                            context, '/baseNav', (route) => false);
 
                         emailController.clear();
                         passwordController.clear();
@@ -165,10 +165,4 @@ class SignUpPage extends StatelessWidget {
       ),
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(
-    home: SignUpPage(),
-  ));
 }

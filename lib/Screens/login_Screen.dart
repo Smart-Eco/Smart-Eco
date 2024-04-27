@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:smarteco2/Screens/base_nav.dart';
 import 'package:smarteco2/Screens/sign_up.dart';
 import 'package:smarteco2/services/auth_service.dart';
 
@@ -82,11 +81,6 @@ class LoginScreen extends StatelessWidget {
                   // Login Button
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const BaseNav()),
-                      );
                       AuthService auth = AuthService();
                       try {
                         if (passwordController.text.isEmpty ||
@@ -100,7 +94,7 @@ class LoginScreen extends StatelessWidget {
                                   passwordController.text, context)
                               .then((value) {
                             Navigator.of(context).pushNamedAndRemoveUntil(
-                                '/home', (route) => false);
+                                '/baseNav', (route) => false);
                             emailController.clear();
                             passwordController.clear();
                           });

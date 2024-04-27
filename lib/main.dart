@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:smarteco2/Screens/base_nav.dart';
 import 'package:smarteco2/Screens/home_screen.dart';
 import 'package:smarteco2/Screens/login_Screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -48,11 +49,11 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
-        '/home': (context) => HomeScreen(),
+        '/baseNav': (context) => BaseNav(),
         '/signout': (context) => const LoginScreen(),
       },
       home: Scaffold(
-        body: isLoggin ? HomeScreen() : const splashScreen(),
+        body: isLoggin ? BaseNav() : const splashScreen(),
       ),
     );
   }
