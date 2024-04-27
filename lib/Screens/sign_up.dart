@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smarteco2/Screens/base_nav.dart';
+import 'package:smarteco2/Screens/login_Screen.dart';
 import 'package:smarteco2/services/auth_service.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -8,8 +9,11 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController nameController = TextEditingController();
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
+    TextEditingController confirmPasswordController = TextEditingController();
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -43,6 +47,7 @@ class SignUpPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               TextField(
+                controller: nameController,
                 decoration: InputDecoration(
                   labelText: 'Name',
                   focusedBorder: OutlineInputBorder(
@@ -68,6 +73,10 @@ class SignUpPage extends StatelessWidget {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   ),
+                  errorText: emailController.text.isNotEmpty &&
+                          !emailController.text.contains('@gmail.com')
+                      ? 'Please enter a valid Gmail address'
+                      : null,
                 ),
               ),
               const SizedBox(height: 10),
@@ -76,6 +85,22 @@ class SignUpPage extends StatelessWidget {
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: 'Password',
+                  focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(color: Colors.green, width: 2.0),
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: confirmPasswordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Confirm Password',
                   focusedBorder: OutlineInputBorder(
                     borderSide:
                         const BorderSide(color: Colors.green, width: 2.0),
@@ -97,21 +122,33 @@ class SignUpPage extends StatelessWidget {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Field is empty')),
                       );
-                      if (passwordController.text.length < 6) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Password should be 6 digit')),
-                        );
-                      }
+                    } else if (passwordController.text.length < 6) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Password should be 6 digits')),
+                      );
+                    } else if (passwordController.text !=
+                        confirmPasswordController.text) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Passwords do not match')),
+                      );
+                    } else if (!emailController.text.contains('@gmail.com')) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content:
+                                Text('Please enter a valid Gmail address')),
+                      );
                     } else {
                       auth
                           .signUp(emailController.text, passwordController.text)
                           .then((value) {
                         Navigator.pushNamedAndRemoveUntil(
-                            context, '/baseNav', (route) => false);
+                            context, '/signout', (route) => false);
 
+                        nameController.clear();
                         emailController.clear();
                         passwordController.clear();
+                        confirmPasswordController.clear();
                       });
                     }
                   } catch (e) {
@@ -134,31 +171,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
-              const Divider(),
-              const SizedBox(height: 20),
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const BaseNav()),
-                  );
-                },
-                icon: Image.asset(
-                  'assets/google.jpg',
-                  width: 24,
-                  height: 24,
-                ),
-                label: const Text('Sign Up with Google'),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.grey,
-                  backgroundColor: Colors.black,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                ),
-              ),
+              const SizedBox(height: 10),
             ],
           ),
         ),
