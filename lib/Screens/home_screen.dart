@@ -62,13 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),],
             ),
           ),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  auth.logout(context);
-                },
-                icon: const Icon(Icons.logout))
-          ],
+          
         ),
       
       body: SingleChildScrollView(

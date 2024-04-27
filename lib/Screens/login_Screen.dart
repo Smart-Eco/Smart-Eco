@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smarteco2/Screens/base_nav.dart';
 import 'package:smarteco2/Screens/sign_up.dart';
 import 'package:smarteco2/services/auth_service.dart';
 
@@ -80,8 +82,7 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 20),
                   // Login Button
                   ElevatedButton(
-                    onPressed: () {
-                      AuthService auth = AuthService();
+                    onPressed: () async {
                       try {
                         if (passwordController.text.isEmpty ||
                             emailController.text.isEmpty) {
@@ -89,22 +90,33 @@ class LoginScreen extends StatelessWidget {
                             const SnackBar(content: Text('Field is empty')),
                           );
                         } else {
-                          auth
-                              .signIn(emailController.text,
-                                  passwordController.text, context)
-                              .then((value) {
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                '/baseNav', (route) => false);
-                            emailController.clear();
-                            passwordController.clear();
-                          });
+                          await FirebaseAuth.instance
+                              .signInWithEmailAndPassword(
+                            email: emailController.text,
+                            password: passwordController.text,
+                          );
+                          // If login successful, navigate to HomeScreen
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const BaseNav()),
+                          );
                         }
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Field is empty')));
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'user-not-found' ||
+                            e.code == 'wrong-password') {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Invalid email or password')),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text(
+                                    'Error occurred. Please try again later.')),
+                          );
+                        }
                       }
-
-                      // Navigate to HomeScreen
                     },
                     child: Text('Login'),
                     style: ElevatedButton.styleFrom(

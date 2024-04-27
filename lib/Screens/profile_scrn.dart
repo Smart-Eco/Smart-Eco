@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:smarteco2/services/auth_service.dart';
 
 class ProfileScrn extends StatelessWidget {
   const ProfileScrn({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    AuthService auth = AuthService();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -59,27 +61,32 @@ class ProfileScrn extends StatelessWidget {
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 20),
-            buildIconButton(Icons.edit, 'Edit Profile', context),
+            buildIconButton(Icons.edit, 'Edit Profile', context, () {}),
             const SizedBox(height: 10),
-            buildIconButton(Icons.settings, 'Settings', context),
+            buildIconButton(Icons.settings, 'Settings', context, () {}),
             const SizedBox(height: 10),
             buildResetButton(context),
             const SizedBox(height: 10),
-            buildIconButton(Icons.support, 'Support', context),
+            buildIconButton(Icons.support, 'Support', context, () {}),
             const SizedBox(height: 10),
-            buildIconButton(Icons.logout, 'Logout', context),
+            ElevatedButton(
+                onPressed: () {
+                  auth.logout(context);
+                },
+                child: Text('Logout'))
           ],
         ),
       ),
     );
   }
 
-  Widget buildIconButton(IconData icon, String label, BuildContext context) {
+  Widget buildIconButton(
+      IconData icon, String label, BuildContext context, Function onTap) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.9,
       child: ElevatedButton(
         onPressed: () {
-          // Handle button click
+          onTap();
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

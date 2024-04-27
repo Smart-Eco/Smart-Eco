@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
   checkState() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     auth.authStateChanges().listen((User? user) {
-      if (user != null && mounted) {
+      if (user != null) {
         setState(() {
           isLoggin = true;
         });
