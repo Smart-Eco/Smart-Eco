@@ -1,6 +1,32 @@
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/widgets.dart';
 
-class HistoryPage extends StatelessWidget {
+class HistoryPage extends StatefulWidget {
+  @override
+  State<HistoryPage> createState() => _HistoryPageState();
+}
+
+class _HistoryPageState extends State<HistoryPage> {
+  DatabaseReference db = FirebaseDatabase.instance.ref();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
+  void getData() async {
+    final snapshot = await db.child('MiniIot/Devices/Device1').get();
+    if (snapshot.exists) {
+      print(snapshot.value);
+    } else {
+      print('No data available.');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +45,8 @@ class HistoryPage extends StatelessWidget {
                 DropdownButton<String>(
                   hint: Text('Select Duration'),
                   onChanged: (String? value) {},
-                  items: <String>['Last Week', 'Last Month'].map((String value) {
+                  items:
+                      <String>['Last Week', 'Last Month'].map((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
@@ -85,6 +112,7 @@ class HistoryPage extends StatelessWidget {
                 ),
               ],
             ),
+           
           ],
         ),
       ),
