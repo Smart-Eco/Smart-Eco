@@ -11,7 +11,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   TextEditingController currentUsageController = TextEditingController();
   TextEditingController predictedUsageController = TextEditingController();
   final TextEditingController _priceLimitController = TextEditingController();
@@ -34,44 +33,42 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      appBar: 
-        AppBar(
-          toolbarHeight: 100,
-          flexibleSpace: const Padding(
-            padding: EdgeInsets.symmetric(vertical: 10,horizontal: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [ 
-                SizedBox(height: 10,),
-                Text(
-                  'Hello',
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.black,
-                  ),
+      appBar: AppBar(
+        toolbarHeight: 100,
+        flexibleSpace: const Padding(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Hello',
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Colors.black,
                 ),
-                
-                Text(
-                  'UserName',
-                  style: TextStyle(
-                    fontFamily: 'Helvetica',
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),],
-            ),
+              ),
+              Text(
+                'UserName',
+                style: TextStyle(
+                  fontFamily: 'Helvetica',
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ],
           ),
-          
         ),
-      
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-             
               const SizedBox(height: 25),
               SizedBox(
                 height: 200,
