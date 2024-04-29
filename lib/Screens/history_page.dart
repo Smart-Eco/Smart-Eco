@@ -19,12 +19,13 @@ class _HistoryPageState extends State<HistoryPage> {
   }
 
   void getData() async {
-    final snapshot = await db.child('MiniIot/Devices/Device1').get();
-    if (snapshot.exists) {
-      print(snapshot.value);
-    } else {
-      print('No data available.');
-    }
+    db.child('MiniIot/Devices/Device1').onValue.listen((DatabaseEvent event) {
+      final data = event.snapshot.value as Map<dynamic, dynamic>;
+      // print(data['A']); // prints value of A = 0
+      // print(data['logs']['B']); // prints ID: B, updated: 1714405682, status: 67 .....
+      //  print(data['logs']['C']); // prints ID: C, updated: 1714405682, status: 67 .....
+      // print(data['logs']['B']['-NweXf18tnTT7e8yTTAx']); // print particular value for this you have to iterate thorough each
+    });
   }
 
   @override
@@ -112,7 +113,6 @@ class _HistoryPageState extends State<HistoryPage> {
                 ),
               ],
             ),
-           
           ],
         ),
       ),
