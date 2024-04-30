@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: const Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Text(
-                    'Usage Stats',
+                    'History',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 18,
