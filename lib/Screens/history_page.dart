@@ -1,4 +1,5 @@
-import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/widgets.dart';
@@ -10,6 +11,22 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPageState extends State<HistoryPage> {
   DatabaseReference db = FirebaseDatabase.instance.ref();
+
+  TextEditingController controller = TextEditingController();
+  bool switchValue = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch initial value of A from Firebase
+    db.child('MiniIot/Devices/Device1/A').once().then((DataSnapshot snapshot) {
+          if (snapshot.value != null) {
+            setState(() {
+              switchValue = snapshot.value == 1;
+            });
+          }
+        } as FutureOr Function(DatabaseEvent value));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,31 +75,29 @@ class _HistoryPageState extends State<HistoryPage> {
                           ),
                         ),
                         SizedBox(height: 10),
-                        StreamBuilder(
-                          stream: db.child('MiniIot/Devices/Device1').onValue,
-                          builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
-                            if (snapshot.hasData) {
-                              final data = snapshot.data!.snapshot.value
-                                  as Map<dynamic, dynamic>;
-                              final currentUsage = data['A'].toString();
-                              return Text(
-                                '$currentUsage kWh',
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                switchValue ? 'ON' : 'OFF',
                                 style: TextStyle(
                                   fontSize: 24,
                                 ),
-                              );
-                            } else if (snapshot.hasError) {
-                              return Text(
-                                'Error: ${snapshot.error}',
-                                style: TextStyle(
-                                  color: Colors.red,
-                                ),
-                              );
-                            } else {
-                              return CircularProgressIndicator();
-                            }
-                          },
+                              ),
+                            ),
+                            Switch(
+                              value: switchValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  switchValue = value;
+                                });
+                                // Update value of A in Firebase
+                                db
+                                    .child('MiniIot/Devices/Device1/A')
+                                    .set(value ? 1 : 0);
+                              },
+                            ),
+                          ],
                         ),
                       ],
                     ),
