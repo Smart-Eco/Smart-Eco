@@ -51,13 +51,13 @@ class ProfileScrn extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            const Text(
-              'Random Username', // Replace with the actual username
+            const Text( 
+              'Ka', // Replace with the actual username
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 5),
             const Text(
-              'random@example.com', // Replace with the actual email
+              'ka@gmail.com.com', // Replace with the actual email
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 20),
@@ -71,7 +71,7 @@ class ProfileScrn extends StatelessWidget {
             const SizedBox(height: 10),
             ElevatedButton(
                 onPressed: () {
-                  auth.logout(context);
+                  _showLogoutConfirmationDialog(context);
                 },
                 child: Text('Logout'))
           ],
@@ -164,6 +164,40 @@ class ProfileScrn extends StatelessWidget {
 
     if (result != null && result) {
       // Reset all data
+    }
+  }
+
+  Future<void> _showLogoutConfirmationDialog(BuildContext context) async {
+    final result = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color.fromRGBO(52, 225, 162, 1),
+          title: const Text('Logout'),
+          content: const Text('Are you sure you want to logout?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text('Yes'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text('No'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (result != null && result) {
+      // Logout
+      AuthService auth = AuthService();
+      auth.logout(context);
     }
   }
 }

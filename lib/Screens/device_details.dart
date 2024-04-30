@@ -42,6 +42,7 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
               ],
             ),
           ),
+          
           Expanded(
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
