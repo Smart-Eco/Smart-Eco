@@ -51,7 +51,7 @@ class ProfileScrn extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            const Text( 
+            const Text(
               'Ka', // Replace with the actual username
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),

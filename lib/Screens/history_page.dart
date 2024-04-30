@@ -14,7 +14,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
   TextEditingController controller = TextEditingController();
   bool switchValue = false;
-  
+
   @override
   void initState() {
     super.initState();
