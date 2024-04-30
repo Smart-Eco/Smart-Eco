@@ -137,20 +137,45 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(height: 10),
-              Divider(
-                height: 20,
-                thickness: 2,
+              Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle button 1 press
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+                      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                      minimumSize: Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Text(
+                      'DEVICE : BULB',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle button 2 press
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+                      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                      minimumSize: Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Text(
+                      'DEVICE : PLUG',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 10),
-              Text(
-                'Devices',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
-              buildDeviceTiles(),
             ],
           ),
         ),
@@ -408,45 +433,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         );
       },
-    );
-  }
-
-  Widget buildDeviceTiles() {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: (devices.length / 2).ceil(),
-      itemBuilder: (context, index) {
-        return Row(
-          children: [
-            Expanded(
-              child: buildDeviceCard(devices[index * 2]),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: (index * 2 + 1 < devices.length)
-                  ? buildDeviceCard(devices[index * 2 + 1])
-                  : const SizedBox(),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget buildDeviceCard(String deviceName) {
-    return Card(
-      child: ListTile(
-        title: Text(deviceName),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DeviceDetailsScreen(deviceName: deviceName),
-            ),
-          );
-        },
-      ),
     );
   }
 }
