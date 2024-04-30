@@ -14,18 +14,22 @@ class _HistoryPageState extends State<HistoryPage> {
 
   TextEditingController controller = TextEditingController();
   bool switchValue = false;
-
+  
   @override
   void initState() {
     super.initState();
-    // Fetch initial value of A from Firebase
-    db.child('MiniIot/Devices/Device1/A').once().then((DataSnapshot snapshot) {
-          if (snapshot.value != null) {
-            setState(() {
-              switchValue = snapshot.value == 1;
-            });
-          }
-        } as FutureOr Function(DatabaseEvent value));
+
+    // Listen for changes in the value of A from Firebase
+    db.child('MiniIot/Devices/Device1/A').onValue.listen((event) {
+      if (event.snapshot.value != null) {
+        setState(() {
+          switchValue = event.snapshot.value == 1;
+        });
+      }
+    }).onError((error) {
+      // Handle any potential errors
+      print("Error fetching data: $error");
+    });
   }
 
   @override
