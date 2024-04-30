@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/widgets.dart';
 
-class HistoryPage extends StatefulWidget {
+class BlubScreen extends StatefulWidget {
   @override
-  State<HistoryPage> createState() => _HistoryPageState();
+  State<BlubScreen> createState() => _BulbScreenState();
 }
 
-class _HistoryPageState extends State<HistoryPage> {
+class _BulbScreenState extends State<BlubScreen> {
   DatabaseReference db = FirebaseDatabase.instance.ref();
 
   TextEditingController controller = TextEditingController();
@@ -21,7 +21,7 @@ class _HistoryPageState extends State<HistoryPage> {
     super.initState();
 
     // Listen for changes in the value of A from Firebase
-    db.child('MiniIot/Devices/Device1/A').onValue.listen((event) {
+    db.child('MiniIot/Devices/Device1/B').onValue.listen((event) {
       if (event.snapshot.value != null) {
         setState(() {
           switchValue = event.snapshot.value == 1;
@@ -48,7 +48,7 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FAN'),
+        title: Text('BULB'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -67,7 +67,7 @@ class _HistoryPageState extends State<HistoryPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'FAN',
+                          'BULB',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -92,7 +92,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                 });
                                 // Update value of A in Firebase
                                 db
-                                    .child('MiniIot/Devices/Device1/A')
+                                    .child('MiniIot/Devices/Device1/B')
                                     .set(value ? 1 : 0);
                               },
                             ),

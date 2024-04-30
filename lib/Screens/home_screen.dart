@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:smarteco2/Screens/bulb.dart';
 import 'package:smarteco2/Screens/device_details.dart';
-import 'package:smarteco2/Screens/history_page.dart';
+import 'package:smarteco2/Screens/fan.dart';
+import 'package:smarteco2/Screens/plug.dart';
 import 'package:smarteco2/services/auth_service.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -20,7 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final PageController _pageController = PageController();
 
-  List<String> devices = ['Bulb', 'Fan', 'Motor', 'asd'];
   List<String> notifications = [];
   AuthService auth = AuthService();
   String? userName; // Variable to store user's name
@@ -141,7 +143,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      // Handle button 1 press
+                       Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => BlubScreen()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: const Color.fromARGB(255, 0, 0, 0),
@@ -159,7 +164,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
-                      // Handle button 2 press
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Plugscreen()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: const Color.fromARGB(255, 0, 0, 0),
@@ -174,6 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
+                  
                 ],
               ),
             ],
