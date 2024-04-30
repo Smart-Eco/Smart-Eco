@@ -1,12 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:smarteco2/services/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ProfileScrn extends StatelessWidget {
+class ProfileScrn extends StatefulWidget {
   const ProfileScrn({Key? key}) : super(key: key);
 
   @override
+  _ProfileScrnState createState() => _ProfileScrnState();
+}
+
+class _ProfileScrnState extends State<ProfileScrn> {
+  String? userName;
+  String? userEmail;
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch user data when the screen initializes
+    fetchUserData();
+  }
+
+  // Function to fetch user data from Firestore
+  void fetchUserData() async {
+    // Get current user from FirebaseAuth
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // Query Firestore for user's document
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+      if (snapshot.exists) {
+        // Set userName and userEmail to user's name and email from Firestore
+        setState(() {
+          userName = snapshot['name'];
+          userEmail = user.email;
+        });
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    AuthService auth = AuthService();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -51,14 +85,14 @@ class ProfileScrn extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            const Text(
-              'Ka', // Replace with the actual username
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Text(
+              userName ?? '', // Display user's name if available, otherwise display empty string
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 5),
-            const Text(
-              'ka@gmail.com.com', // Replace with the actual email
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+            Text(
+              userEmail ?? '', // Display user's email if available, otherwise display empty string
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 20),
             buildIconButton(Icons.edit, 'Edit Profile', context, () {}),
