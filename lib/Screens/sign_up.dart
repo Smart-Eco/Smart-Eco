@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smarteco2/Screens/base_nav.dart';
-import 'package:smarteco2/Screens/login_Screen.dart';
 import 'package:smarteco2/services/auth_service.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -113,7 +114,7 @@ class SignUpPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   AuthService auth = AuthService();
                   debugPrint('btn pressed');
                   try {
@@ -130,7 +131,8 @@ class SignUpPage extends StatelessWidget {
                     } else if (passwordController.text !=
                         confirmPasswordController.text) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Passwords do not match')),
+                        const SnackBar(
+                            content: Text('Passwords do not match')),
                       );
                     } else if (!emailController.text.contains('@gmail.com')) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -139,39 +141,55 @@ class SignUpPage extends StatelessWidget {
                                 Text('Please enter a valid Gmail address')),
                       );
                     } else {
-                      auth
-                          .signUp(emailController.text, passwordController.text)
-                          .then((value) {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, '/signout', (route) => false);
+                      // Sign up with email and password using FirebaseAuth
+                      UserCredential userCredential = await FirebaseAuth
+                          .instance
+                          .createUserWithEmailAndPassword(
+                        email: emailController.text,
+                        password: passwordController.text,
+                      );
 
-                        nameController.clear();
-                        emailController.clear();
-                        passwordController.clear();
-                        confirmPasswordController.clear();
+                      // Get the user ID from FirebaseAuth
+                      String userId = userCredential.user!.uid;
+
+                      // Save user information to Firestore
+                      await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(userId)
+                          .set({
+                        'name': nameController.text,
+                        'email': emailController.text,
+                        // Add any additional fields you want to store
                       });
+
+                      // Navigate to HomeScreen after sign up
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/signout', (route) => false);
+
+                      // Clear text fields
+                      nameController.clear();
+                      emailController.clear();
+                      passwordController.clear();
+                      confirmPasswordController.clear();
                     }
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Please try again later')),
+                      const SnackBar(
+                          content: Text('Please try again later')),
                     );
                   }
-
-                  // Handle Sign Up logic
-
-                  // Navigate to HomeScreen after sign up
                 },
                 child: const Text('SIGN UP'),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
-                  backgroundColor: const Color.fromRGBO(52, 224, 161, 1),
+                  backgroundColor:
+                      const Color.fromRGBO(52, 224, 161, 1),
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                 ),
               ),
-              
               const SizedBox(height: 10),
             ],
           ),

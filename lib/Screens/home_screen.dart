@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smarteco2/Screens/device_details.dart';
 import 'package:smarteco2/Screens/history_page.dart';
 import 'package:smarteco2/services/auth_service.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -21,12 +23,32 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String> devices = ['Bulb', 'Fan', 'Motor', 'asd'];
   List<String> notifications = [];
   AuthService auth = AuthService();
+  String? userName; // Variable to store user's name
 
   @override
   void initState() {
     super.initState();
     currentUsageController.text = '50';
     predictedUsageController.text = '60';
+    // Fetch and set user's name when HomeScreen initializes
+    fetchUserName();
+  }
+
+  // Function to fetch user's name from Firestore
+  void fetchUserName() async {
+    // Get current user from FirebaseAuth
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // Query Firestore for user's document
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+      if (snapshot.exists) {
+        // Set userName to user's name from Firestore
+        setState(() {
+          userName = snapshot['name'];
+        });
+      }
+    }
   }
 
   @override
@@ -35,14 +57,12 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         toolbarHeight: 100,
-        flexibleSpace: const Padding(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+        flexibleSpace: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
               Text(
                 'Hello',
                 style: TextStyle(
@@ -51,7 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Text(
-                'UserName',
+                // Display user's name if available, otherwise display 'Username'
+                userName ?? 'Username',
                 style: TextStyle(
                   fontFamily: 'Helvetica',
                   fontSize: 25,
@@ -69,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 25),
+              SizedBox(height: 25),
               SizedBox(
                 height: 200,
                 child: PageView.builder(
@@ -84,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -93,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 10),
+                  minimumSize: Size(double.infinity, 10),
                   foregroundColor: Colors.white,
                   shadowColor: Colors.black,
                   elevation: 5,
@@ -101,8 +122,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.all(16.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
                   child: Text(
                     'History',
                     style: TextStyle(
@@ -113,20 +134,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
                   navigateToAddDeviceScreen();
                 },
                 style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 10),
-                  backgroundColor: const Color.fromRGBO(52, 224, 161, 1),
+                  minimumSize: Size(double.infinity, 10),
+                  backgroundColor: Color.fromRGBO(52, 224, 161, 1),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.all(16.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
                   child: Text(
                     'Add Device',
                     style: TextStyle(
@@ -137,20 +158,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
-              const Divider(
+              SizedBox(height: 10),
+              Divider(
                 height: 20,
                 thickness: 2,
               ),
-              const SizedBox(height: 10),
-              const Text(
+              SizedBox(height: 10),
+              Text(
                 'Devices',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               buildDeviceTiles(),
             ],
           ),
@@ -158,6 +179,11 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  
+
+
+
 
   Widget buildEnergyUsageCard() {
     return Card(
