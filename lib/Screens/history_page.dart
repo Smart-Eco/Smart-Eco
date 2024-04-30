@@ -14,6 +14,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
   TextEditingController controller = TextEditingController();
   bool switchValue = false;
+  int totalEnergyUsed = 0; // Variable to hold total energy used by the device
 
   @override
   void initState() {
@@ -30,13 +31,24 @@ class _HistoryPageState extends State<HistoryPage> {
       // Handle any potential errors
       print("Error fetching data: $error");
     });
+
+    // Calculate total energy used by the device
+    _calculateTotalEnergyUsed();
+  }
+
+  // Function to calculate total energy used by the device
+  void _calculateTotalEnergyUsed() {
+    // You can implement the logic to calculate total energy used here
+    // For example, you can query the database for historical data and sum it up
+    // For now, let's just set it to a random value
+    totalEnergyUsed = 500; // Assuming total energy used is 500 units
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('History'),
+        title: Text('FAN'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -44,23 +56,6 @@ class _HistoryPageState extends State<HistoryPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                DropdownButton<String>(
-                  hint: Text('Select Duration'),
-                  onChanged: (String? value) {},
-                  items:
-                      <String>['Last Week', 'Last Month'].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -72,7 +67,7 @@ class _HistoryPageState extends State<HistoryPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'A',
+                          'FAN',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -107,37 +102,86 @@ class _HistoryPageState extends State<HistoryPage> {
                     ),
                   ),
                 ),
-                SizedBox(width: 20),
-                Expanded(
-                  child: Container(
-                    color: Colors.grey[200],
-                    padding: EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Predicted Bill:',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Rs. 1349',
-                          style: TextStyle(
-                            fontSize: 24,
-                          ),
-                        ),
-                      ],
+              ],
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    _showWattInputDialog(context);
+                  },
+                  child: Text(
+                    'ENTER THE DEVICE WATT',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ],
             ),
+            SizedBox(height: 20),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Total Energy Used',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      '$totalEnergyUsed units',
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _showWattInputDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Enter Device Watt'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                TextField(
+                  controller: controller,
+                  decoration: InputDecoration(labelText: 'Watt'),
+                  keyboardType: TextInputType.number,
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Save'),
+              onPressed: () {
+                // Save the watt to Firebase or perform any other action
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
