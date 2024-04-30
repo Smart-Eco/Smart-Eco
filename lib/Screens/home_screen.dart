@@ -40,8 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       // Query Firestore for user's document
-      DocumentSnapshot<Map<String, dynamic>> snapshot =
-          await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+          .instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
       if (snapshot.exists) {
         // Set userName to user's name from Firestore
         setState(() {
@@ -55,41 +58,40 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      appBar: AppBar(
-        toolbarHeight: 100,
-        flexibleSpace: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 10),
-              Text(
-                'Hello',
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.black,
-                ),
-              ),
-              Text(
-                // Display user's name if available, otherwise display 'Username'
-                userName ?? 'Username',
-                style: TextStyle(
-                  fontFamily: 'Helvetica',
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: 25),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10),
+                    Text(
+                      'Hello',
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      // Display user's name if available, otherwise display 'Username'
+                      userName ?? 'Username',
+                      style: TextStyle(
+                        fontFamily: 'Helvetica',
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(height: 25),
               SizedBox(
                 height: 200,
@@ -125,33 +127,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'History',
+                    'DEVICE : FAN',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  navigateToAddDeviceScreen();
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 10),
-                  backgroundColor: Color.fromRGBO(52, 224, 161, 1),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Add Device',
-                    style: TextStyle(
-                      color: Colors.white,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -179,11 +157,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  
-
-
-
 
   Widget buildEnergyUsageCard() {
     return Card(
@@ -473,57 +446,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         },
-      ),
-    );
-  }
-
-  void navigateToAddDeviceScreen() async {
-    final newDevice = await Navigator.push<String>(
-      context,
-      MaterialPageRoute(builder: (context) => AddDeviceScreen()),
-    );
-    if (newDevice != null) {
-      setState(() {
-        devices.add(newDevice);
-      });
-    }
-  }
-}
-
-class AddDeviceScreen extends StatelessWidget {
-  final TextEditingController _deviceNameController = TextEditingController();
-
-  AddDeviceScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Device'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              controller: _deviceNameController,
-              decoration: const InputDecoration(
-                labelText: 'Device Name',
-              ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                final deviceName = _deviceNameController.text.trim();
-                if (deviceName.isNotEmpty) {
-                  Navigator.pop(context, deviceName);
-                }
-              },
-              child: const Text('Add'),
-            ),
-          ],
-        ),
       ),
     );
   }
