@@ -15,21 +15,25 @@ class _splashScreenState extends State<splashScreen> {
   bool expand = false;
   @override
   void initState() {
-    Timer(const Duration(seconds: 3), () {
-      setState(() {
-        expand = true;
-      });
+    super.initState();
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) {
+        setState(() {
+          expand = true;
+        });
+      }
     });
 
     Timer(const Duration(seconds: 5), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
-        ),
-      );
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LoginScreen(),
+          ),
+        );
+      }
     });
-
 
     super.initState();
   }

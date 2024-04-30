@@ -12,23 +12,6 @@ class _HistoryPageState extends State<HistoryPage> {
   DatabaseReference db = FirebaseDatabase.instance.ref();
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getData();
-  }
-
-  void getData() async {
-    db.child('MiniIot/Devices/Device1').onValue.listen((DatabaseEvent event) {
-      final data = event.snapshot.value as Map<dynamic, dynamic>;
-      // print(data['A']); // prints value of A = 0
-      // print(data['logs']['B']); // prints ID: B, updated: 1714405682, status: 67 .....
-      //  print(data['logs']['C']); // prints ID: C, updated: 1714405682, status: 67 .....
-      // print(data['logs']['B']['-NweXf18tnTT7e8yTTAx']); // print particular value for this you have to iterate thorough each
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -68,18 +51,38 @@ class _HistoryPageState extends State<HistoryPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Current Usage:',
+                          'A',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           ),
                         ),
                         SizedBox(height: 10),
-                        Text(
-                          '105.57 kWh',
-                          style: TextStyle(
-                            fontSize: 24,
-                          ),
+                        StreamBuilder(
+                          stream: db.child('MiniIot/Devices/Device1').onValue,
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.hasData) {
+                              final data = snapshot.data!.snapshot.value
+                                  as Map<dynamic, dynamic>;
+                              final currentUsage = data['A'].toString();
+                              return Text(
+                                '$currentUsage kWh',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                ),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Text(
+                                'Error: ${snapshot.error}',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ),
+                              );
+                            } else {
+                              return CircularProgressIndicator();
+                            }
+                          },
                         ),
                       ],
                     ),
