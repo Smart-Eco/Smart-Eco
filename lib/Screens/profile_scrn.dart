@@ -184,7 +184,7 @@ class _ProfileScrnState extends State<ProfileScrn> {
         return AlertDialog(
           backgroundColor: const Color.fromRGBO(52, 225, 162, 1),
           title: const Text('Warning'),
-          content: const Text('Do you want to reset the bill?'),
+          content: const Text('Do you want to reset the log?'),
           actions: <Widget>[
             TextButton(
               onPressed: () {

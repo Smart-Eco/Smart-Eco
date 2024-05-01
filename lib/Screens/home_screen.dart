@@ -194,6 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             foregroundColor: const Color.fromARGB(255, 0, 0, 0),
                             backgroundColor:
                                 const Color.fromARGB(255, 255, 255, 255),
+                            elevation: 5,
                             minimumSize: Size(double.infinity, 50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -217,6 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             foregroundColor: const Color.fromARGB(255, 0, 0, 0),
                             backgroundColor:
                                 const Color.fromARGB(255, 255, 255, 255),
+                            elevation: 5,
                             minimumSize: Size(double.infinity, 50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
