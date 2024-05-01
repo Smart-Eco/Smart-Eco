@@ -297,7 +297,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             const SizedBox(
                                 width: 5), // Add spacing between value and unit
                             Text(
-                              "W", // Unit for power
+                              "Wh", // Unit for power
                               style: const TextStyle(
                                 fontSize: 20, // Adjust font size for unit
                                 fontWeight: FontWeight.normal,
@@ -362,115 +362,128 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildPriceCard() {
-    double totalPrice = 60; // Placeholder for total price calculation
-    bool showNotification = totalPrice > priceLimit * 0.7;
-    String notificationMessage =
-        "The consumption has reached more than 70% of the price limit set.";
+    return StreamBuilder(
+      stream: db.child('MiniIot/Devices/Device1/Tenergy').onValue,
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (!snapshot.hasData || snapshot.data.snapshot.value == null) {
+          return Text('No data available for energy usage');
+        } else {
+          int tenergy = int.parse(snapshot.data.snapshot.value.toString());
+          double totalPrice = (tenergy/3600)*6.5;
 
-    if (showNotification) {
-      // Add notification to the notifications list
-      if (!notifications.contains(notificationMessage)) {
-        notifications.add(notificationMessage);
-      }
+          bool showNotification = totalPrice > priceLimit * 0.7;
+          String notificationMessage =
+              "The consumption has reached more than 70% of the price limit set.";
 
-      // Show snackbar notification
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(notificationMessage),
-          ),
-        );
-      });
-    }
+          if (showNotification) {
+            if (!notifications.contains(notificationMessage)) {
+              notifications.add(notificationMessage);
+            }
 
-    return Card(
-      color: const Color.fromRGBO(112, 52, 224, 1),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Container(
-        constraints: const BoxConstraints(minHeight: 200),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Price",
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 255, 255, 255),
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(notificationMessage),
+                ),
+              );
+            });
+            
+          }
+          return Card(
+            color: const Color.fromRGBO(112, 52, 224, 1),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Container(
+              constraints: const BoxConstraints(minHeight: 200),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Price",
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.more_vert),
+                          color: Colors.white,
+                          onPressed: () {
+                            _showEditPriceLimitPopup(context);
+                          },
+                        ),
+                      ],
                     ),
-                    textAlign: TextAlign.left,
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.more_vert),
-                    color: Colors.white,
-                    onPressed: () {
-                      _showEditPriceLimitPopup(context);
-                    },
-                  ),
-                ],
+                    const Divider(
+                      color: Colors.white,
+                      thickness: 1.0,
+                      height: 20,
+                      indent: 0,
+                      endIndent: 0,
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Total Price",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        ),
+                        Text(
+                          "${totalPrice}", // Display the multiplied value
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.normal,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Price Limit",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        ),
+                        Text(
+                          "$priceLimit", // Display the Price Limit value
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.normal,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              const Divider(
-                color: Colors.white,
-                thickness: 1.0,
-                height: 20,
-                indent: 0,
-                endIndent: 0,
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Total Price",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                  ),
-                  Text(
-                    "$totalPrice", // Replace with the actual total price value
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.normal,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Price Limit",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                  ),
-                  Text(
-                    "$priceLimit", // Display the Price Limit value
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.normal,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
+          );
+        }
+      },
     );
   }
 
