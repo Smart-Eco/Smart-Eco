@@ -526,6 +526,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   // Update the Price Limit value in the main screen state
                   priceLimit = double.parse(_priceLimitController.text);
                 });
+
+                // Store the updated Price Limit value in the Firebase Realtime Database
+                db
+                    .child('MiniIot/Devices/Device1/PriceLimit')
+                    .set(double.parse(_priceLimitController.text).toString());
+
                 Navigator.of(context).pop();
               },
               child: const Text('Save'),
