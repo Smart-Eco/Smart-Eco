@@ -22,7 +22,7 @@ class _BulbScreenState extends State<BulbScreen> {
     super.initState();
 
     // Listen for changes in the value of A from Firebase
-    db.child('MiniIot/Devices/Device1/A').onValue.listen((event) {
+    db.child('MiniIot/Devices/Device1/B').onValue.listen((event) {
       if (event.snapshot.value != null) {
         setState(() {
           switchValue = event.snapshot.value == 1;
@@ -58,7 +58,7 @@ class _BulbScreenState extends State<BulbScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FAN'),
+        title: Text('BULB'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -77,7 +77,7 @@ class _BulbScreenState extends State<BulbScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'FAN',
+                          'BULB',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -102,7 +102,7 @@ class _BulbScreenState extends State<BulbScreen> {
                                 });
                                 // Update value of A in Firebase
                                 db
-                                    .child('MiniIot/Devices/Device1/A')
+                                    .child('MiniIot/Devices/Device1/B')
                                     .set(value ? 1 : 0);
                               },
                             ),
@@ -134,7 +134,7 @@ class _BulbScreenState extends State<BulbScreen> {
             ),
             SizedBox(height: 20),
             StreamBuilder(
-                stream: db.child('MiniIot/Devices/Device1/logs/A').onValue,
+                stream: db.child('MiniIot/Devices/Device1/logs/B').onValue,
                 builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return CircularProgressIndicator();
@@ -200,7 +200,7 @@ class _BulbScreenState extends State<BulbScreen> {
                 }),
             SizedBox(height: 20),
             StreamBuilder(
-              stream: db.child('MiniIot/Devices/Device1/Watt/A').onValue,
+              stream: db.child('MiniIot/Devices/Device1/Watt/B').onValue,
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator();
@@ -239,7 +239,7 @@ class _BulbScreenState extends State<BulbScreen> {
               },
             ),
             StreamBuilder(
-              stream: db.child('MiniIot/Devices/Device1/Watt/A').onValue,
+              stream: db.child('MiniIot/Devices/Device1/Watt/B').onValue,
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator();
@@ -307,7 +307,7 @@ class _BulbScreenState extends State<BulbScreen> {
               child: Text('Save'),
               onPressed: () {
                 int wattage = int.tryParse(controller.text) ?? 0;
-                db.child('MiniIot/Devices/Device1/Watt/A').set(wattage);
+                db.child('MiniIot/Devices/Device1/Watt/B').set(wattage);
                 controller.clear();
                 Navigator.of(context).pop();
               },

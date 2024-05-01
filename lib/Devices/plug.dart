@@ -4,17 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/widgets.dart';
 
-class Plugscreen extends StatefulWidget {
+class PlugScreen extends StatefulWidget {
   @override
-  State<Plugscreen> createState() => _PlugScreenState();
+  State<PlugScreen> createState() => _PlugScreenState();
 }
 
-class _PlugScreenState extends State<Plugscreen> {
+class _PlugScreenState extends State<PlugScreen> {
   DatabaseReference db = FirebaseDatabase.instance.ref();
 
   TextEditingController controller = TextEditingController();
   bool switchValue = false;
   int totalEnergyUsed = 0; // Variable to hold total energy used by the device
+  int totalTime = 0; // Variable to hold total time
 
   @override
   void initState() {
@@ -42,6 +43,15 @@ class _PlugScreenState extends State<Plugscreen> {
     // For example, you can query the database for historical data and sum it up
     // For now, let's just set it to a random value
     totalEnergyUsed = 500; // Assuming total energy used is 500 units
+
+    // Calculate total time
+    _calculateTotalTime();
+  }
+
+  // Function to calculate total time
+  void _calculateTotalTime() {
+    // Your logic to calculate total time goes here
+    totalTime = 3600; // Example value, you need to implement the actual logic
   }
 
   @override
@@ -123,29 +133,150 @@ class _PlugScreenState extends State<Plugscreen> {
               ],
             ),
             SizedBox(height: 20),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Total Energy Used',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+            StreamBuilder(
+                stream: db.child('MiniIot/Devices/Device1/logs/C').onValue,
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else if (!snapshot.hasData ||
+                      snapshot.data!.snapshot.value == null) {
+                    return Text('No data available');
+                  } else {
+                    Map<dynamic, dynamic> data = snapshot.data!.snapshot.value;
+                    List<Widget> dataList = [];
+                    List<int> statusList = [];
+                    List<int> updatedList = [];
+                    List<Duration> durationList = [];
+                    List<DateTime> updatedListDateTime = [];
+                    Duration totalDuration = Duration.zero;
+
+                    data.forEach((key, value) {
+                      dataList.add(Text(
+                          'ID: $key, Updated: ${value['updated']}, Status: ${value['status']}'));
+                      statusList.add(value['status']);
+                      int updatedValue;
+                      try {
+                        updatedValue = int.parse(value['updated']);
+                        updatedList.add(updatedValue);
+                      } catch (e) {
+                        print('Error parsing updated value for key $key: $e');
+                      }
+                    });
+                    updatedList.sort();
+                    updatedList = updatedList.reversed.toList();
+                    print('time ${updatedList}');
+
+                    for (int i = 0; i < updatedList.length; i++) {
+                      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
+                          updatedList[i] * 1000,
+                          isUtc: true);
+                      updatedListDateTime.add(dateTime);
+                    }
+                    print('updatedListDateTime${updatedListDateTime}');
+
+                    for (int i = 0; i < updatedList.length - 1; i = i + 2) {
+                      durationList.add(updatedListDateTime[i]
+                          .difference(updatedListDateTime[i + 1]));
+                    }
+                    print('duration: $durationList');
+
+                    for (var duration in durationList) {
+                      totalDuration += duration;
+                    }
+                    totalTime = totalDuration.inSeconds;
+                    print('totalTime: $totalTime');
+                    return Text(
+                      "${totalTime} sec",
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                        color: Color.fromARGB(255, 19, 18, 18),
+                      ),
+                      textAlign: TextAlign.left,
+                    );
+                  }
+                }),
+            SizedBox(height: 20),
+            StreamBuilder(
+              stream: db.child('MiniIot/Devices/Device1/Watt/C').onValue,
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (!snapshot.hasData ||
+                    snapshot.data!.snapshot.value == null) {
+                  return Text('No data available');
+                } else {
+                  int wattage = snapshot.data!.snapshot.value;
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Your Device Watt',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            '$wattage W',
+                            style: TextStyle(
+                              fontSize: 24,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Text(
-                      '$totalEnergyUsed units',
-                      style: TextStyle(
-                        fontSize: 24,
+                  );
+                }
+              },
+            ),
+            StreamBuilder(
+              stream: db.child('MiniIot/Devices/Device1/Watt/C').onValue,
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (!snapshot.hasData ||
+                    snapshot.data!.snapshot.value == null) {
+                  return Text('No data available');
+                } else {
+                  int wattage = snapshot.data!.snapshot.value;
+                  int totalEnergyUsed = wattage * totalTime;
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Total Energy Used',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            '$totalEnergyUsed W',
+                            style: TextStyle(
+                              fontSize: 24,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
+                  );
+                }
+              },
             ),
           ],
         ),
@@ -175,7 +306,9 @@ class _PlugScreenState extends State<Plugscreen> {
             TextButton(
               child: Text('Save'),
               onPressed: () {
-                // Save the watt to Firebase or perform any other action
+                int wattage = int.tryParse(controller.text) ?? 0;
+                db.child('MiniIot/Devices/Device1/Watt/C').set(wattage);
+                controller.clear();
                 Navigator.of(context).pop();
               },
             ),

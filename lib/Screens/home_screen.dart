@@ -7,7 +7,6 @@ import 'package:smarteco2/Devices/fan.dart';
 import 'package:smarteco2/Devices/plug.dart';
 import 'package:smarteco2/services/auth_service.dart';
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -143,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                       Navigator.push(
+                      Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => BulbScreen()),
                       );
@@ -166,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Plugscreen()),
+                        MaterialPageRoute(builder: (context) => PlugScreen()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -182,7 +181,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
-                  
                 ],
               ),
             ],
