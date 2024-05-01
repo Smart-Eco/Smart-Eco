@@ -266,14 +266,16 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Energy Usage",
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 255, 255, 255),
+              Center(
+                child: const Text(
+                  "Energy Usage",
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  ),
+                  textAlign: TextAlign.left,
                 ),
-                textAlign: TextAlign.left,
               ),
               const Divider(
                 color: Colors.white,
@@ -282,29 +284,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 indent: 0,
                 endIndent: 0,
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment:
+                    MainAxisAlignment.center, // Center the content horizontally
                 children: [
                   Expanded(
                     child: Column(
                       children: [
                         const Text(
-                          "Power",
+                          "POWER",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontFamily: 'Helvetica',
+                            fontSize: 25,
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 255, 255, 255),
                           ),
                           textAlign: TextAlign.left,
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment
+                              .center, // Center the content horizontally
                           children: [
                             Text(
                               "${currentUsage.toString()}",
                               style: const TextStyle(
                                 fontSize: 20,
-                                fontWeight: FontWeight.normal,
+                                fontWeight: FontWeight.bold,
                                 color: Color.fromARGB(255, 255, 255, 255),
                               ),
                             ),
@@ -314,7 +320,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               "Wh", // Unit for power
                               style: const TextStyle(
                                 fontSize: 20, // Adjust font size for unit
-                                fontWeight: FontWeight.normal,
+                                fontWeight: FontWeight.bold,
                                 color: Color.fromARGB(255, 255, 255, 255),
                               ),
                             ),
@@ -331,41 +337,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        const Text(
-                          "Predicted Usage",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                        TextField(
-                          controller: predictedUsageController,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.normal,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                          textAlign: TextAlign.left,
-                          readOnly: true,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 2.0,
-                          width: double.infinity,
-                          child: ColoredBox(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ],

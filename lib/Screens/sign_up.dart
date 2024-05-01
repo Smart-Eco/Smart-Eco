@@ -17,181 +17,181 @@ class SignUpPage extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'SmartEco',
-                style: GoogleFonts.rubik(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                'SIGNUP',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  letterSpacing: 1.5,
-                ),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Looks like you don’t have an account. Let’s create a new account for you.',
-                style: TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  labelText: 'Name',
-                  focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        const BorderSide(color: Colors.green, width: 2.0),
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'SmartEco',
+                  style: GoogleFonts.rubik(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        const BorderSide(color: Colors.green, width: 2.0),
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  errorText: emailController.text.isNotEmpty &&
-                          !emailController.text.contains('@gmail.com')
-                      ? 'Please enter a valid Gmail address'
-                      : null,
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        const BorderSide(color: Colors.green, width: 2.0),
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
+                const SizedBox(height: 10),
+                const Text(
+                  'SIGNUP',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    letterSpacing: 1.5,
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: confirmPasswordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Confirm Password',
-                  focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        const BorderSide(color: Colors.green, width: 2.0),
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
+                const SizedBox(height: 20),
+                const Text(
+                  'Looks like you don’t have an account. Let’s create a new account for you.',
+                  style: TextStyle(fontSize: 16),
+                ),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    labelText: 'Name',
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: Colors.green, width: 2.0),
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () async {
-                  AuthService auth = AuthService();
-                  debugPrint('btn pressed');
-                  try {
-                    if (passwordController.text.isEmpty ||
-                        emailController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Field is empty')),
-                      );
-                    } else if (passwordController.text.length < 6) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('Password should be 6 digits')),
-                      );
-                    } else if (passwordController.text !=
-                        confirmPasswordController.text) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('Passwords do not match')),
-                      );
-                    } else if (!emailController.text.contains('@gmail.com')) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content:
-                                Text('Please enter a valid Gmail address')),
-                      );
-                    } else {
-                      // Sign up with email and password using FirebaseAuth
-                      UserCredential userCredential = await FirebaseAuth
-                          .instance
-                          .createUserWithEmailAndPassword(
-                        email: emailController.text,
-                        password: passwordController.text,
-                      );
+                const SizedBox(height: 10),
+                TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: Colors.green, width: 2.0),
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    errorText: emailController.text.isNotEmpty &&
+                            !emailController.text.contains('@gmail.com')
+                        ? 'Please enter a valid Gmail address'
+                        : null,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: Colors.green, width: 2.0),
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: confirmPasswordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Confirm Password',
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: Colors.green, width: 2.0),
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async {
+                    AuthService auth = AuthService();
+                    debugPrint('btn pressed');
+                    try {
+                      if (passwordController.text.isEmpty ||
+                          emailController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Field is empty')),
+                        );
+                      } else if (passwordController.text.length < 6) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Password should be 6 digits')),
+                        );
+                      } else if (passwordController.text !=
+                          confirmPasswordController.text) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Passwords do not match')),
+                        );
+                      } else if (!emailController.text.contains('@gmail.com')) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content:
+                                  Text('Please enter a valid Gmail address')),
+                        );
+                      } else {
+                        // Sign up with email and password using FirebaseAuth
+                        UserCredential userCredential = await FirebaseAuth
+                            .instance
+                            .createUserWithEmailAndPassword(
+                          email: emailController.text,
+                          password: passwordController.text,
+                        );
 
-                      // Get the user ID from FirebaseAuth
-                      String userId = userCredential.user!.uid;
+                        // Get the user ID from FirebaseAuth
+                        String userId = userCredential.user!.uid;
 
-                      // Save user information to Firestore
-                      await FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(userId)
-                          .set({
-                        'name': nameController.text,
-                        'email': emailController.text,
-                        // Add any additional fields you want to store
-                      });
+                        // Save user information to Firestore
+                        await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(userId)
+                            .set({
+                          'name': nameController.text,
+                          'email': emailController.text,
+                          // Add any additional fields you want to store
+                        });
 
-                      // Navigate to HomeScreen after sign up
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, '/signout', (route) => false);
+                        // Navigate to HomeScreen after sign up
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/signout', (route) => false);
 
-                      // Clear text fields
-                      nameController.clear();
-                      emailController.clear();
-                      passwordController.clear();
-                      confirmPasswordController.clear();
+                        // Clear text fields
+                        nameController.clear();
+                        emailController.clear();
+                        passwordController.clear();
+                        confirmPasswordController.clear();
+                      }
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Please try again later')),
+                      );
                     }
-                  } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text('Please try again later')),
-                    );
-                  }
-                },
-                child: const Text('SIGN UP'),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor:
-                      const Color.fromRGBO(52, 224, 161, 1),
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
+                  },
+                  child: const Text('SIGN UP'),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: const Color.fromRGBO(52, 224, 161, 1),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-            ],
+                const SizedBox(height: 10),
+              ],
+            ),
           ),
         ),
       ),
