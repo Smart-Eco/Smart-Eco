@@ -267,7 +267,7 @@ class _BulbScreenState extends State<BulbScreen> {
                           ),
                           SizedBox(height: 10),
                           Text(
-                            '$totalEnergyUsed W',
+                            '$totalEnergyUsed Ws',
                             style: TextStyle(
                               fontSize: 24,
                             ),

@@ -267,7 +267,7 @@ class _PlugScreenState extends State<PlugScreen> {
                           ),
                           SizedBox(height: 10),
                           Text(
-                            '$totalEnergyUsed W',
+                            '$totalEnergyUsed Ws',
                             style: TextStyle(
                               fontSize: 24,
                             ),
@@ -302,7 +302,7 @@ class _PlugScreenState extends State<PlugScreen> {
                 ),
               ],
             ),
-          ), 
+          ),
           actions: <Widget>[
             TextButton(
               child: Text('Save'),
