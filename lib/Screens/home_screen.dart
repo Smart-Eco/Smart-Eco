@@ -388,6 +388,7 @@ class _HomeScreenState extends State<HomeScreen> {
         } else {
           int tenergy = int.parse(snapshot.data.snapshot.value.toString());
           double totalPrice = (tenergy / 3600) * 6.5;
+          String totalPriceString = totalPrice.toStringAsFixed(4);
 
           bool showNotification = totalPrice > priceLimit * 0.7;
           String notificationMessage =
@@ -459,7 +460,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Text(
-                          "${totalPrice}", // Display the multiplied value
+                          "${totalPriceString}", // Display the multiplied value
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.normal,
