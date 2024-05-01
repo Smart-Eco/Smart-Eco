@@ -43,7 +43,7 @@ class _NotificationPageState extends State<NotificationPage> {
 
   void _startTimer() {
     _timer?.cancel();
-    _timer = Timer(Duration(seconds: 60), () {
+    _timer = Timer(Duration(seconds: 10), () {
       // Print the message if no motion detected for 60 seconds
       showDialog(
         context: context,
