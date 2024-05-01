@@ -12,7 +12,7 @@ class BaseNav extends StatefulWidget {
 
 class _BaseNavState extends State<BaseNav> {
   int _currentIndex = 0; // Add this line to track the current index
-  List screens = [HomeScreen(), NotifScrn(), ProfileScrn()];
+  List screens = [HomeScreen(), NotificationPage(), ProfileScrn()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
