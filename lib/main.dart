@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:smarteco2/Devices/totalEnergy.dart';
 import 'package:smarteco2/Screens/base_nav.dart';
 import 'package:smarteco2/Screens/home_screen.dart';
 import 'package:smarteco2/Screens/login_Screen.dart';

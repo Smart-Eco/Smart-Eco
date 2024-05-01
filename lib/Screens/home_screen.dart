@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,6 +7,7 @@ import 'package:smarteco2/Devices/bulb.dart';
 import 'package:smarteco2/Screens/device_details.dart';
 import 'package:smarteco2/Devices/fan.dart';
 import 'package:smarteco2/Devices/plug.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:smarteco2/services/auth_service.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,11 +29,14 @@ class _HomeScreenState extends State<HomeScreen> {
   AuthService auth = AuthService();
   String? userName; // Variable to store user's name
 
+  DatabaseReference db = FirebaseDatabase.instance.reference();
+
   @override
   void initState() {
     super.initState();
-    currentUsageController.text = '50';
-    predictedUsageController.text = '60';
+    _fetchAndSetCurrentUsage();
+    predictedUsageController.text =
+        '60'; // Placeholder value for predicted usage
     // Fetch and set user's name when HomeScreen initializes
     fetchUserName();
   }
@@ -55,142 +61,185 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  // Function to fetch current usage data and update the text controller
+  void _fetchAndSetCurrentUsage() {
+    db.child('MiniIot/Devices/Device1/energy').onValue.listen((event) {
+      if (event.snapshot.value != null &&
+          event.snapshot.value is Map<dynamic, dynamic>) {
+        Map<dynamic, dynamic> energyData =
+            event.snapshot.value as Map<dynamic, dynamic>;
+        int sum = 0;
+        energyData.forEach((key, value) {
+          // Check if the value is actually a number (int or double)
+          if (value is num) {
+            sum += value.toInt(); // Convert value to int if it's a double
+          }
+        });
+        setState(() {
+          currentUsageController.text = sum.toString();
+          // Store the sum value in the realtime database
+          db.child('MiniIot/Devices/Device1/Tenergy').set(sum.toString());
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 25),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+      body: StreamBuilder(
+        stream: db.child('MiniIot/Devices/Device1/Tenergy').onValue,
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData ||
+              snapshot.data.snapshot.value == null) {
+            return Center(child: Text('No data available for current usage'));
+          } else {
+            int currentUsage = int.parse(snapshot.data.snapshot.value);
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 10),
-                    Text(
-                      'Hello',
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.black,
+                    SizedBox(height: 25),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 10),
+                          Text(
+                            'Hello',
+                            style: TextStyle(
+                              fontSize: 24,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            // Display user's name if available, otherwise display 'Username'
+                            userName ?? 'Username',
+                            style: TextStyle(
+                              fontFamily: 'Helvetica',
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Text(
-                      // Display user's name if available, otherwise display 'Username'
-                      userName ?? 'Username',
-                      style: TextStyle(
-                        fontFamily: 'Helvetica',
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                    SizedBox(height: 25),
+                    SizedBox(
+                      height: 200,
+                      child: PageView.builder(
+                        controller: _pageController,
+                        itemCount: 2,
+                        itemBuilder: (context, index) {
+                          if (index == 0) {
+                            return buildEnergyUsageCard(currentUsage);
+                          } else {
+                            return buildPriceCard();
+                          }
+                        },
                       ),
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HistoryPage()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(double.infinity, 10),
+                        foregroundColor: Colors.white,
+                        shadowColor: Colors.black,
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          'DEVICE : FAN',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Column(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BulbScreen()),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+                            backgroundColor:
+                                const Color.fromARGB(255, 255, 255, 255),
+                            minimumSize: Size(double.infinity, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: Text(
+                            'DEVICE : BULB',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PlugScreen()),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+                            backgroundColor:
+                                const Color.fromARGB(255, 255, 255, 255),
+                            minimumSize: Size(double.infinity, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: Text(
+                            'DEVICE : PLUG',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 25),
-              SizedBox(
-                height: 200,
-                child: PageView.builder(
-                  controller: _pageController,
-                  itemCount: 2,
-                  itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return buildEnergyUsageCard();
-                    } else {
-                      return buildPriceCard();
-                    }
-                  },
-                ),
-              ),
-              SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HistoryPage()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 10),
-                  foregroundColor: Colors.white,
-                  shadowColor: Colors.black,
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'DEVICE : FAN',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              Column(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => BulbScreen()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: const Color.fromARGB(255, 0, 0, 0),
-                      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                      minimumSize: Size(double.infinity, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Text(
-                      'DEVICE : BULB',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => PlugScreen()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: const Color.fromARGB(255, 0, 0, 0),
-                      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                      minimumSize: Size(double.infinity, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Text(
-                      'DEVICE : PLUG',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+            );
+          }
+        },
       ),
     );
   }
 
-  Widget buildEnergyUsageCard() {
+  Widget buildEnergyUsageCard(int currentUsage) {
     return Card(
       color: const Color.fromRGBO(52, 224, 161, 1),
       shape: RoundedRectangleBorder(
@@ -227,7 +276,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       children: [
                         const Text(
-                          "Current Usage",
+                          "Power",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -235,14 +284,27 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           textAlign: TextAlign.left,
                         ),
-                        Text(
-                          "${currentUsageController.text} kWh",
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.normal,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                          textAlign: TextAlign.left,
+                        Row(
+                          children: [
+                            Text(
+                              "${currentUsage.toString()}",
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.normal,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
+                            ),
+                            const SizedBox(
+                                width: 5), // Add spacing between value and unit
+                            Text(
+                              "W", // Unit for power
+                              style: const TextStyle(
+                                fontSize: 20, // Adjust font size for unit
+                                fontWeight: FontWeight.normal,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(
                           height: 2.0,
@@ -250,7 +312,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ColoredBox(
                             color: Color.fromARGB(255, 255, 255, 255),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -267,14 +329,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           textAlign: TextAlign.left,
                         ),
-                        Text(
-                          "${predictedUsageController.text} kWh",
+                        TextField(
+                          controller: predictedUsageController,
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.normal,
                             color: Color.fromARGB(255, 255, 255, 255),
                           ),
                           textAlign: TextAlign.left,
+                          readOnly: true,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                          ),
                         ),
                         const SizedBox(
                           height: 2.0,

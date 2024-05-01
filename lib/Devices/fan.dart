@@ -44,14 +44,13 @@ class _FanScreenPageState extends State<HistoryPage> {
     // For now, let's just set it to a random value
     totalEnergyUsed = 500; // Assuming total energy used is 500 units
 
-    // Calculate total time
-    _calculateTotalTime();
+    // Update total energy used in the database
+    _updateTotalEnergyUsed(totalEnergyUsed);
   }
 
-  // Function to calculate total time
-  void _calculateTotalTime() {
-    // Your logic to calculate total time goes here
-    totalTime = 3600; // Example value, you need to implement the actual logic
+  // Function to update total energy used in the database
+  void _updateTotalEnergyUsed(int energy) {
+    db.child('MiniIot/Devices/Device1/energy/A').set(energy);
   }
 
   @override
@@ -250,7 +249,9 @@ class _FanScreenPageState extends State<HistoryPage> {
                   return Text('No data available');
                 } else {
                   int wattage = snapshot.data!.snapshot.value;
-                  int totalEnergyUsed = wattage * totalTime;
+                  totalEnergyUsed = wattage * totalTime;
+                  _updateTotalEnergyUsed(
+                      totalEnergyUsed); // Update total energy used in the database
                   return Card(
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
