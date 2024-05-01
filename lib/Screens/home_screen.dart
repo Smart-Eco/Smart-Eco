@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:smarteco2/Screens/bulb.dart';
+import 'package:smarteco2/Devices/bulb.dart';
 import 'package:smarteco2/Screens/device_details.dart';
-import 'package:smarteco2/Screens/fan.dart';
-import 'package:smarteco2/Screens/plug.dart';
+import 'package:smarteco2/Devices/fan.dart';
+import 'package:smarteco2/Devices/plug.dart';
 import 'package:smarteco2/services/auth_service.dart';
 
 
