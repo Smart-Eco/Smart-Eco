@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:smarteco2/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,8 +29,11 @@ class _ProfileScrnState extends State<ProfileScrn> {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       // Query Firestore for user's document
-      DocumentSnapshot<Map<String, dynamic>> snapshot =
-          await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+          .instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
       if (snapshot.exists) {
         // Set userName and userEmail to user's name and email from Firestore
         setState(() {
@@ -86,12 +91,14 @@ class _ProfileScrnState extends State<ProfileScrn> {
             ),
             const SizedBox(height: 20),
             Text(
-              userName ?? '', // Display user's name if available, otherwise display empty string
+              userName ??
+                  '', // Display user's name if available, otherwise display empty string
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 5),
             Text(
-              userEmail ?? '', // Display user's email if available, otherwise display empty string
+              userEmail ??
+                  '', // Display user's email if available, otherwise display empty string
               style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 20),
@@ -198,6 +205,36 @@ class _ProfileScrnState extends State<ProfileScrn> {
 
     if (result != null && result) {
       // Reset all data
+      await resetData();
+    }
+  }
+
+  Future<void> resetData() async {
+    try {
+      DatabaseReference logsRef = FirebaseDatabase.instance
+          .reference()
+          .child('MiniIot')
+          .child('Devices')
+          .child('Device1')
+          .child('logs');
+
+      // Remove all data under the 'logs' key
+      await logsRef.remove();
+
+      // Inform the user that reset is successful
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Data reset successful'),
+        ),
+      );
+    } catch (error) {
+      print('Error resetting data: $error');
+      // Handle error gracefully
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error resetting data: $error'),
+        ),
+      );
     }
   }
 
