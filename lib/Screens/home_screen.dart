@@ -236,6 +236,20 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         },
       ),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: SizedBox(
+          width: 40,
+          height: 40,
+          child: FloatingActionButton(
+            onPressed: _fetchAndSetCurrentUsage,
+            child: Icon(Icons.refresh, size: 20),
+            backgroundColor: const Color.fromARGB(
+                255, 255, 255, 255), // Adjust color as needed
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }
 
@@ -373,7 +387,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return Text('No data available for energy usage');
         } else {
           int tenergy = int.parse(snapshot.data.snapshot.value.toString());
-          double totalPrice = (tenergy/3600)*6.5;
+          double totalPrice = (tenergy / 3600) * 6.5;
 
           bool showNotification = totalPrice > priceLimit * 0.7;
           String notificationMessage =
@@ -391,7 +405,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             });
-            
           }
           return Card(
             color: const Color.fromRGBO(112, 52, 224, 1),
