@@ -267,7 +267,7 @@ class _FanScreenPageState extends State<HistoryPage> {
                           ),
                           SizedBox(height: 10),
                           Text(
-                            '$totalEnergyUsed W',
+                            '$totalEnergyUsed Ws',
                             style: TextStyle(
                               fontSize: 24,
                             ),
